@@ -151,10 +151,10 @@ public class FlooringMasteryController {
     //---------------------------------------------------------|    
         
     // -- EDIT ORDER  SECTION --    
-    private void editOrder() throws FlooringMasteryPersistenceException, 
-                                    FlooringMasteryDuplicateIdException,
+    private void editOrder() throws FlooringMasteryPersistenceException,                                     
                                     FloorMasteryValidateSubmitException,
-                                    FlooringMasteryDataValidationException {
+                                    FlooringMasteryDataValidationException,
+                                    FlooringMasteryDuplicateIdException {
         view.displayEditOrderBanner();
         boolean hasErrors = false;
         do {
@@ -167,8 +167,7 @@ public class FlooringMasteryController {
                 service.editOrder(newOrder);
                 view.displayEditOrderSuccessBanner();
                 hasErrors = false;
-        } catch (FlooringMasteryDataValidationException | 
-                 FlooringMasteryDuplicateIdException e) {
+        } catch (FlooringMasteryDataValidationException e) {
                 hasErrors = true;
                 view.displayErrorMessage(e.getMessage());
         } catch (FloorMasteryValidateSubmitException e) {

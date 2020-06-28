@@ -24,8 +24,8 @@ public interface FlooringMasteryServiceLayer {
     public void editOrder(Orders order) throws 
             FlooringMasteryPersistenceException, 
             FlooringMasteryDataValidationException,
-            FloorMasteryValidateSubmitException,
-            FlooringMasteryDuplicateIdException;            
+            FlooringMasteryDuplicateIdException,
+            FloorMasteryValidateSubmitException;                       
  
     public List<Orders> getAllOrders() throws
             FlooringMasteryPersistenceException;

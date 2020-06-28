@@ -264,6 +264,7 @@ public class FlooringMasteryView {
             io.print("");
             io.print("  ===  Order Summary  ===  ");
             io.print("Order Number: "+newOrder.getOrderNumber());
+            io.print("Order Date: "+newOrder.getOrderDate());
 	    io.print("Customer Name: "+newOrder.getCustomerName());
 	    io.print("Customer State: "+newOrder.getState());
             io.print("Tax Rate: $"+newOrder.getTaxRate());
@@ -285,6 +286,7 @@ public class FlooringMasteryView {
             io.print("");
             io.print("  ===  Order Summary  ===  ");
             io.print("Order Number: "+newOrder.getOrderNumber());
+            io.print("Order Date: "+newOrder.getOrderDate());
 	    io.print("Customer Name: "+newOrder.getCustomerName());
 	    io.print("Customer State: "+newOrder.getState());
             io.print("Tax Rate: $"+newOrder.getTaxRate());
@@ -347,21 +349,41 @@ public class FlooringMasteryView {
 	    io.readString("Press enter to continue.");
             
     }
-    public Orders editExistingOrderInfo(Orders order){
-        
-        String orderNumber = io.readString(order.getOrderNumber());  
-        String orderDate = io.readString(order.getOrderDate());
+    public Orders editExistingOrderInfo(Orders order){        
+                
+        String orderNumber = io.readString("Order Number: "+order.getOrderNumber());
+        String orderDate = io.readString("Enter Order Fullfillment Date. "+order.getOrderDate());
         String customerName = io.readString("Enter Customer Name. "+order.getCustomerName());   
         String state = io.readString("Enter State. "+order.getState());        
         String productType = io.readString("Enter Product Type. "+order.getProductType());
         String area = io.readString("Enter Projected Area. "+order.getArea());        
         
         // -- Create a new "Order" object --
-        Orders currentOrder = new Orders(orderNumber);// -- OrderNumber of the "New Order"        
+        Orders currentOrder = new Orders(orderDate);// -- OrderNumber of the "New Order" 
         
-        currentOrder.setCustomerName(customerName);                   
-        currentOrder.setState(state);           
+        if(orderNumber.trim().length() == 0){
+            currentOrder.setOrderNumber(order.getOrderNumber());
+        } else {
+            currentOrder.setOrderNumber(orderNumber);
+        }
         
+        if(orderDate.trim().length() == 0){
+            currentOrder.setOrderDate(order.getOrderDate());
+        } else {       
+            currentOrder.setOrderDate(orderDate);
+        }
+        
+        if(customerName.trim().length() == 0){
+            currentOrder.setCustomerName(order.getCustomerName());
+        } else {
+            currentOrder.setCustomerName(customerName);
+        }
+                   
+        if(state.trim().length() == 0){
+            currentOrder.setState(order.getState());
+        } else {
+            currentOrder.setState(state);
+        }
         
         // -- TAXE RATES --
         switch (state.toUpperCase()){
@@ -380,9 +402,19 @@ public class FlooringMasteryView {
             default:
                 break;
         }        
-        currentOrder.setProductType(productType);
         
-        currentOrder.setArea(area);
+        if(productType.trim().length() == 0){
+            currentOrder.setProductType(order.getProductType());
+        } else {
+            currentOrder.setProductType(productType);
+        }
+        
+        if(area.trim().length() == 0){
+            currentOrder.setArea(order.getArea());
+        } else {
+            currentOrder.setArea(area);
+        }
+        
         // -- COST PER SQUARE FOOT --
         switch (productType.toLowerCase()){
             case "carpet":

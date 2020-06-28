@@ -94,7 +94,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         
     } else {
         
-            System.out.println("False: Does not contain at least 1 Order");
+            System.out.println("False: Does not contain. at least 1 Order");
         orderNumber = "0";
         Integer newOrderNumber = 0;
         
@@ -155,12 +155,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     @Override
     public Orders addOrder(String orderNumber, Orders order) 
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException {
-        Orders newOrder = myOrders.put(orderNumber, order);        
-        try {        
-            loadOrder();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Orders newOrder = myOrders.put(orderNumber, order);       
         try {
             writeOrder();
         } catch (IOException e) {

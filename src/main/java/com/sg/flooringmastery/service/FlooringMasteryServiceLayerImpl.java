@@ -52,8 +52,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public void editOrder(Orders order) throws FlooringMasteryPersistenceException,
                                                FloorMasteryValidateSubmitException, 
                                                FlooringMasteryDataValidationException,
-                                               FlooringMasteryDuplicateIdException {
-        validateRequiredFields(order);
+                                               FlooringMasteryDuplicateIdException {                                                 
+        //validateRequiredFields(order);
         validateAreaSquareFeet(order);
         validateSumitOrder(order);
         dao.addOrder(order.getOrderNumber(), order);
