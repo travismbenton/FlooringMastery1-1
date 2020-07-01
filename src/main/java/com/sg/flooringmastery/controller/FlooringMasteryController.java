@@ -81,6 +81,8 @@ public class FlooringMasteryController {
         
         } catch (FlooringMasteryPersistenceException | NumberFormatException 
                 | NullPointerException | ArrayIndexOutOfBoundsException e){
+
+
             run();
             //view.displayErrorMessage(e.getMessage());
         }        
@@ -111,8 +113,8 @@ public class FlooringMasteryController {
     // -- DISPLAY ORDERS  SECTION --    
     private void displayOrders() throws FlooringMasteryPersistenceException {
         view.displayOrdersListBanner();
-        String newDate = view.getOrderDateChoice();
-        Orders order = service.getTXTOrder(newDate);        
+        String orderDate = view.getOrderDateChoice();
+        service.getTXTOrder(orderDate);         
         view.displayOrdersListSuccessBanner();  
     }           
     // -- "END" DISPLAY ORDERS  SECTION --
@@ -158,13 +160,13 @@ public class FlooringMasteryController {
         view.displayEditOrderBanner();
         boolean hasErrors = false;
         do {
-                //String existingOrderDate = view.getOrderDateChoice();
-                String existingOrderNumber = view.getEditOrderNumberChoice();
-                Orders order = service.getOrder(existingOrderNumber);
+                String date = view.getEditOrderDateChoice();
+                String existingOrderNumber = view.getEditOrderNumberChoice();                
+                Orders order = service.getEditTXTOrder(date, existingOrderNumber);
                 Orders newOrder = view.editExistingOrderInfo(order);            
         try {
                 view.displayVerifyOrderSummary(newOrder);
-                service.editOrder(newOrder);
+                service.editOrder(date, newOrder);
                 view.displayEditOrderSuccessBanner();
                 hasErrors = false;
         } catch (FlooringMasteryDataValidationException e) {

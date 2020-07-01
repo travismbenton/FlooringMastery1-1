@@ -21,7 +21,7 @@ public interface FlooringMasteryServiceLayer {
             FloorMasteryValidateSubmitException,
             FlooringMasteryDuplicateIdException;
     
-    public void editOrder(Orders order) throws 
+    public void editOrder(String date, Orders order) throws 
             FlooringMasteryPersistenceException, 
             FlooringMasteryDataValidationException,
             FlooringMasteryDuplicateIdException,
@@ -31,6 +31,9 @@ public interface FlooringMasteryServiceLayer {
             FlooringMasteryPersistenceException;
     
     public Orders getTXTOrder(String orderDate) throws
+            FlooringMasteryPersistenceException;
+    
+    public Orders getEditTXTOrder(String date, String orderNumber) throws
             FlooringMasteryPersistenceException;
  
     public Orders getOrder(String orderNumber) throws

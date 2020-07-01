@@ -1,5 +1,6 @@
 com\sg\flooringmastery\ui\FlooringMasteryView.class
 com\sg\flooringmastery\dto\TaxRates.class
+com\sg\flooringmastery\dto\Taxes.class
 com\sg\flooringmastery\ui\UserIOConsoleImpl.class
 com\sg\flooringmastery\dao\FlooringMasteryAuditDaoImpl.class
 com\sg\flooringmastery\dto\ProductLaborCost.class
@@ -10,9 +11,10 @@ com\sg\flooringmastery\controller\FlooringMasteryController.class
 com\sg\flooringmastery\dao\FlooringMasteryDaoFileImpl.class
 com\sg\flooringmastery\dao\FlooringMasteryAuditDao.class
 com\sg\flooringmastery\App.class
-com\sg\flooringmastery\dao\FlooringMasteryDaoStubImpl.class
 com\sg\flooringmastery\ui\UserIO.class
+com\sg\flooringmastery\dto\Products.class
 com\sg\flooringmastery\service\FlooringMasteryServiceLayerImpl.class
+com\sg\flooringmastery\service\FloorMasteryValidateSubmitException.class
 com\sg\flooringmastery\dao\FlooringMasteryDao.class
 com\sg\flooringmastery\dao\FlooringMasteryPersistenceException.class
 com\sg\flooringmastery\dto\ProductPrice.class

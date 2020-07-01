@@ -5,9 +5,6 @@
  */
 package com.sg.flooringmastery.dto;
 
-import java.time.LocalDate;
-import java.util.Objects;
-
 /**
  *
  * @author travi
@@ -33,7 +30,7 @@ public class Orders {
     public Orders(String orderNumber) {
         this.orderNumber = orderNumber;        
     }
-    
+            
     public String getOrderNumber() {
         return orderNumber;
     } 

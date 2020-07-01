@@ -26,11 +26,18 @@ public interface FlooringMasteryDao {
     
     Orders addOrder(String orderNumber, Orders order)
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;
-        
+    
+    Orders addEditOrder(String date, String orderNumber, Orders order)
+            throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;
+
+    
     List<Orders> getAllOrders()
             throws FlooringMasteryPersistenceException;
     
     Orders getTXTOrder (String orderDate)
+            throws FlooringMasteryPersistenceException;
+    
+    Orders getEditTXTOrder (String date, String orderNumber)
             throws FlooringMasteryPersistenceException;
     
     Orders getOrder(String orderNumber)

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author travi
  */
-public class FlooringMasteryDaoStubImpl implements FlooringMasteryDao {
+/*public class FlooringMasteryDaoStubImpl implements FlooringMasteryDao {
 
     @Override
     public Orders addOrder(String orderDate, Orders order) throws FlooringMasteryPersistenceException {
@@ -58,5 +58,11 @@ public class FlooringMasteryDaoStubImpl implements FlooringMasteryDao {
     public String theTestKeys(String orderNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+    @Override
+    public Orders getEditTXTOrder(String orderDate, String orderNumber) throws FlooringMasteryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
-}
+}*/

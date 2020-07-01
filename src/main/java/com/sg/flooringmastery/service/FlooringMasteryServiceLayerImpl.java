@@ -49,14 +49,14 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public void editOrder(Orders order) throws FlooringMasteryPersistenceException,
+    public void editOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
                                                FloorMasteryValidateSubmitException, 
                                                FlooringMasteryDataValidationException,
                                                FlooringMasteryDuplicateIdException {                                                 
         //validateRequiredFields(order);
         validateAreaSquareFeet(order);
         validateSumitOrder(order);
-        dao.addOrder(order.getOrderNumber(), order);
+        dao.addEditOrder(date, order.getOrderNumber(), order);
         //auditDao.writeAuditEntry("Existing Order: "+order.getOrderNumber()+" EDITED.");
     }
 
@@ -68,6 +68,11 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     @Override
     public Orders getTXTOrder(String orderDate) throws FlooringMasteryPersistenceException {
         return dao.getTXTOrder(orderDate);
+    }
+    
+    @Override
+    public Orders getEditTXTOrder(String date, String orderNumber) throws FlooringMasteryPersistenceException {
+        return dao.getEditTXTOrder(date, orderNumber);
     }
 
     @Override
@@ -132,6 +137,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
            throws FlooringMasteryPersistenceException {
         return dao.getAssignedOrderNumbers(orderNumber);
     }     
+
+    
 
     
         
