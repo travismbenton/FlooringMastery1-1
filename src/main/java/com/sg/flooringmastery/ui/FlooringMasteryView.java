@@ -48,12 +48,10 @@ public class FlooringMasteryView {
         io.print("3. Edit an Order ");
         io.print("4. Remove an Order ");
         io.print("5. Save Current Work ");
-        io.print("6. List all Orders ");
-        io.print("7. Seach by Order Number");
-        io.print("8. List All Order Numbers");
-        io.print("9. Quit");
+        io.print("6. List all Orders ");        
+        io.print("7. Quit");
             
-        return io.readInt("Please select from the menu above. ", 1, 8);
+        return io.readInt("Please select from the menu above. ", 1, 7);
     }   
     
     //---------------------------------------------------------|
@@ -86,10 +84,10 @@ public class FlooringMasteryView {
     public String getOrderDateChoice(){
         return io.readString("Please enter Order Date. Formmat \"MMDDYYYY\" ");
     }    
-    public void displayDidNotFindDateTXT(){        
+    /*public void displayDidNotFindDateTXT(){        
 	io.print("No such Orders exist.");         
         io.readString("Press enter to continue.");
-    }
+    } */
     public void displayOrdersListSuccessBanner() {
 	io.print("\n=== Orders List Complete ===");        
     }
@@ -251,36 +249,11 @@ public class FlooringMasteryView {
         tax = decimalTax.toString();
         currentOrder.setTax(tax);
         total = decimalTotal.toString();        
-        currentOrder.setTotal(total);   
-        
-                          
+        currentOrder.setTotal(total);                            
        
         return currentOrder;         
                
-    }    
-    
-    public void displayOrderSummary(Orders newOrder){        
-       
-            io.print("");
-            io.print("  ===  Order Summary  ===  ");
-            io.print("Order Number: "+newOrder.getOrderNumber());
-            io.print("Order Date: "+newOrder.getOrderDate());
-	    io.print("Customer Name: "+newOrder.getCustomerName());
-	    io.print("Customer State: "+newOrder.getState());
-            io.print("Tax Rate: $"+newOrder.getTaxRate());
-	    io.print("Product Type: "+newOrder.getProductType());
-            io.print("Projected Area: "+newOrder.getArea());            
-	    io.print("Product Cost Per Square Foot: $"+newOrder.getCostPerSquareFoot());
-	    io.print("Labor Cost Per Square Foot: $"+newOrder.getLaborCostPerSquareFoot());
-	    io.print("Material Cost: $"+newOrder.getMaterialCost());
-            io.print("Labor Cost: $"+newOrder.getLaborCost());
-            io.print("Tax: $"+newOrder.getTax());
-            io.print("Total: $"+newOrder.getTotal());    
-            io.print("  ===  END:  Order Summary  ===  ");
-            io.print("");        
-        
-   }
-    
+    }  
     public void displayVerifyOrderSummary(Orders newOrder){        
        
             io.print("");
@@ -305,8 +278,7 @@ public class FlooringMasteryView {
             String submitOrder = io.readString("Would you like to \"Submit\" this order? Y/N");          
             newOrder.setSubmitOrder(submitOrder);
             
-    }
-    
+    }    
     public void displayCreateOrderSuccessBanner(){
         io.readString("New Order successfully "
                 + "Created.  Please hit enter to continue. ");
@@ -541,7 +513,33 @@ public class FlooringMasteryView {
     public void displayEditOrderSuccessBanner(){
         io.readString("Edit successful. "
                 + "Please hit enter to continue. ");
-    }    
+    }
+
+    public void displayVerifyEditedOrderSummary(Orders newEditedOrder){        
+       
+            io.print("");
+            io.print("  ===  Order Summary  ===  ");
+            io.print("Order Number: "+newEditedOrder.getOrderNumber());
+            io.print("Order Date: "+newEditedOrder.getOrderDate());
+	    io.print("Customer Name: "+newEditedOrder.getCustomerName());
+	    io.print("Customer State: "+newEditedOrder.getState());
+            io.print("Tax Rate: $"+newEditedOrder.getTaxRate());
+	    io.print("Product Type: "+newEditedOrder.getProductType());
+            io.print("Projected Area: "+newEditedOrder.getArea());            
+	    io.print("Product Cost Per Square Foot: $"+newEditedOrder.getCostPerSquareFoot());
+	    io.print("Labor Cost Per Square Foot: $"+newEditedOrder.getLaborCostPerSquareFoot());
+	    io.print("Material Cost: $"+newEditedOrder.getMaterialCost());
+            io.print("Labor Cost: $"+newEditedOrder.getLaborCost());
+            io.print("Tax: $"+newEditedOrder.getTax());
+            io.print("Total: $"+newEditedOrder.getTotal());    
+            io.print("  ===  END:  Order Summary  ===  ");
+            io.print("");  
+            
+            //io.readString("Press enter to continue.");
+            String submitOrder = io.readString("Would you like to \"Submit\" this order? Y/N");          
+            newEditedOrder.setSubmitOrder(submitOrder);
+            
+    }
     // -- "END" EDIT ORDER  SECTION --
     
     //---------------------------------------------------------|
@@ -553,6 +551,30 @@ public class FlooringMasteryView {
      public String getOrderNumberChoice(){
         return io.readString("Please enter Order Number.");
     }
+    public void displayOrderSummary(Orders newOrder){        
+       
+            io.print("");
+            io.print("  ===  Order Summary  ===  ");
+            io.print("Order Number: "+newOrder.getOrderNumber());
+            io.print("Order Date: "+newOrder.getOrderDate());
+	    io.print("Customer Name: "+newOrder.getCustomerName());
+	    io.print("Customer State: "+newOrder.getState());
+            io.print("Tax Rate: $"+newOrder.getTaxRate());
+	    io.print("Product Type: "+newOrder.getProductType());
+            io.print("Projected Area: "+newOrder.getArea());            
+	    io.print("Product Cost Per Square Foot: $"+newOrder.getCostPerSquareFoot());
+	    io.print("Labor Cost Per Square Foot: $"+newOrder.getLaborCostPerSquareFoot());
+	    io.print("Material Cost: $"+newOrder.getMaterialCost());
+            io.print("Labor Cost: $"+newOrder.getLaborCost());
+            io.print("Tax: $"+newOrder.getTax());
+            io.print("Total: $"+newOrder.getTotal());    
+            io.print("  ===  END:  Order Summary  ===  ");
+            io.print(""); 
+            
+            String submitOrder = io.readString("Would you like to \"Remove\" this order? Y/N");          
+            newOrder.setSubmitOrder(submitOrder);
+        
+   } 
     public void displayRemoveOrderSuccessfulBanner() {
 	io.readString("Order successfully removed. "
                 + "Press enter to continue.");
@@ -616,7 +638,7 @@ public class FlooringMasteryView {
     // -- "END" LIST ALL ORDERS  SECTION --
     
     //---------------------------------------------------------| 
-    
+    // -- NOT IN USE --
     // -- SEARCH BY ORDER NUMBERS  SECTION --
     public void displayFindOrderNumberBanner () {
 	    io.print("=== Display Order Numbers ===");
@@ -626,7 +648,7 @@ public class FlooringMasteryView {
     }
     // -- "END" SEARCH BY ORDER NUMBERS  SECTION --
     
-    
+    // -- NOT IN USE --
     public Orders testExistingOrderInfo(Orders order){                
         
         String date = io.readString("Enter Date: ");

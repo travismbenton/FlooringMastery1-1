@@ -34,11 +34,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
                                                  FlooringMasteryDataValidationException,
                                                  FlooringMasteryDuplicateIdException {
         String orderNumber = order.getOrderNumber();
-        if(dao.getOrder(order.getOrderNumber()) == null) {
-            //String orderNumber = order.getOrderNumber();
+        if(dao.getOrder(order.getOrderNumber()) == null) {            
             order.setOrderNumber(dao.theTestKeys(orderNumber));
-            //order.setOrderNumber(dao.generateNextOrderNumber(orderNumber));
-            
         }
                            
         validateRequiredFields(order);
@@ -50,10 +47,9 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     @Override
     public void editOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
-                                               FloorMasteryValidateSubmitException, 
-                                               FlooringMasteryDataValidationException,
-                                               FlooringMasteryDuplicateIdException {                                                 
-        //validateRequiredFields(order);
+                                                            FloorMasteryValidateSubmitException, 
+                                                            FlooringMasteryDataValidationException,
+                                                            FlooringMasteryDuplicateIdException {                                     
         validateAreaSquareFeet(order);
         validateSumitOrder(order);
         dao.addEditOrder(date, order.getOrderNumber(), order);
@@ -81,14 +77,18 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Orders removeOrder(String orderDate, String orderNumber) throws FlooringMasteryPersistenceException {
-        Orders removedOrder = dao.removeOrder(orderDate, orderNumber);
+    public Orders removeOrder(String date, String orderNumber, Orders order) throws
+            FlooringMasteryPersistenceException, 
+            FloorMasteryValidateSubmitException, 
+            FlooringMasteryDataValidationException {
+        validateRemoveOrder(order);
+        Orders removedOrder = dao.removeOrder(date, orderNumber);
         //auditDao.writeAuditEntry("Existing Order: "+orderNumber+" REMOVED.");
         return removedOrder;
     }
     
     
-    public void validateRequiredFields(Orders order) throws 
+    private void validateRequiredFields(Orders order) throws 
             FlooringMasteryDataValidationException {        
         if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0) {                        
             throw new FlooringMasteryDataValidationException (
@@ -97,7 +97,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }    
     
     
-    public void validateAreaSquareFeet(Orders order) throws 
+    private void validateAreaSquareFeet(Orders order) throws 
             FlooringMasteryDataValidationException {            
         
         if (Double.valueOf(order.getArea()) < 100) {            
@@ -107,8 +107,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     
     
-    public void validateSumitOrder(Orders order) throws FloorMasteryValidateSubmitException, 
-                                                        FlooringMasteryDataValidationException {
+    private void validateSumitOrder(Orders order) throws FloorMasteryValidateSubmitException, 
+                                                         FlooringMasteryDataValidationException {
         if (order.getSubmitOrder() == null || order.getSubmitOrder().trim().length() == 0) {                        
             throw new FlooringMasteryDataValidationException (
                     "ERROR: [Submit Order \"Y/N\"] is a required field.");
@@ -117,6 +117,20 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             //order = null;
             throw new FloorMasteryValidateSubmitException (
                     "Order Removed Successfully!");         
+        }         
+    }
+    
+    
+    private void validateRemoveOrder(Orders order) throws FloorMasteryValidateSubmitException, 
+                                                        FlooringMasteryDataValidationException {
+        if (order.getSubmitOrder() == null || order.getSubmitOrder().trim().length() == 0) {                        
+            throw new FlooringMasteryDataValidationException (
+                    "ERROR: [Remove Order \"Y/N\"] is a required field.");
+        }
+        if (order.getSubmitOrder().equalsIgnoreCase("n")){ 
+            //order = null;
+            throw new FloorMasteryValidateSubmitException (
+                    "Remove Order Cancelled!");         
         }         
     }
     

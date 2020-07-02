@@ -43,7 +43,7 @@ public interface FlooringMasteryDao {
     Orders getOrder(String orderNumber)
             throws FlooringMasteryPersistenceException;       
     
-    Orders removeOrder(String orderDate, String orderNumber)
+    Orders removeOrder(String date, String orderNumber)
             throws FlooringMasteryPersistenceException;   
   
     // -- Lambdas, Streams, and Aggregate Operations Section --

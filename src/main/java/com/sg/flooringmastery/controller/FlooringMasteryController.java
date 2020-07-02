@@ -43,6 +43,7 @@ public class FlooringMasteryController {
             
             menuSelection = getMenuSelection();
             
+
             switch (menuSelection){
                 case 1:
                     displayOrders();
@@ -61,15 +62,11 @@ public class FlooringMasteryController {
                     break;
                 case 6:
                     listAllOrders();
-                    break;
+                    break;                
                 case 7:
-                    searchByOrderNumber();
-                case 8:
-                    listAllOrderNumbers();
-                case 9:
                     keepGoing = false;
                     break;
-                case 10:
+                case 8:
                     unknownCommand();
                     break;
      
@@ -81,7 +78,6 @@ public class FlooringMasteryController {
         
         } catch (FlooringMasteryPersistenceException | NumberFormatException 
                 | NullPointerException | ArrayIndexOutOfBoundsException e){
-
 
             run();
             //view.displayErrorMessage(e.getMessage());
@@ -163,10 +159,10 @@ public class FlooringMasteryController {
                 String date = view.getEditOrderDateChoice();
                 String existingOrderNumber = view.getEditOrderNumberChoice();                
                 Orders order = service.getEditTXTOrder(date, existingOrderNumber);
-                Orders newOrder = view.editExistingOrderInfo(order);            
+                Orders newEditedOrder = view.editExistingOrderInfo(order);            
         try {
-                view.displayVerifyOrderSummary(newOrder);
-                service.editOrder(date, newOrder);
+                view.displayVerifyEditedOrderSummary(newEditedOrder);
+                service.editOrder(date, newEditedOrder);
                 view.displayEditOrderSuccessBanner();
                 hasErrors = false;
         } catch (FlooringMasteryDataValidationException e) {
@@ -186,19 +182,31 @@ public class FlooringMasteryController {
     //---------------------------------------------------------|
     
     // -- REMOVE ORDER  SECTION --    
-    private void removeOrder() throws FlooringMasteryPersistenceException {
-        view.displayRemoveOrderBanner();
-        String removeOrderDate = view.getOrderDateChoice();
-        String removeOrderNumber = view.getOrderNumberChoice();
-        Orders order = service.getOrder(removeOrderNumber);
+    private void removeOrder() throws FlooringMasteryPersistenceException,                                     
+                                    FloorMasteryValidateSubmitException,
+                                    FlooringMasteryDataValidationException,
+                                    FlooringMasteryDuplicateIdException {
         
-        view.displayOrderSummary(order);
-        if (order != null){
-        service.removeOrder(removeOrderDate, removeOrderNumber);
-        view.displayRemoveOrderSuccessfulBanner();
-        } else {
-            // intentionally left blank
-        }
+        view.displayRemoveOrderBanner();
+        boolean hasErrors = false;
+        do{
+                String date = view.getOrderDateChoice();        
+                String existingOrderNumber = view.getOrderNumberChoice();
+                Orders order = service.getEditTXTOrder(date, existingOrderNumber);        
+        try {
+                view.displayOrderSummary(order);        
+                service.removeOrder(date, existingOrderNumber, order);
+                view.displayRemoveOrderSuccessfulBanner();
+                hasErrors = false;
+        } catch (FlooringMasteryDataValidationException e) {
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+        } catch (FloorMasteryValidateSubmitException e) {
+                hasErrors = true;
+                run(); 
+        }        
+        
+        } while (hasErrors);
     }        
     // -- "END" REMOVE ORDER  SECTION --
     
@@ -234,8 +242,7 @@ public class FlooringMasteryController {
                                               FlooringMasteryDataValidationException {
         view.displayListAllOrdersBanner();
         List<Orders> orderList = service.getAllOrders();
-        view.displayListAllOrderNumbers(orderList); 
-        run();
+        view.displayListAllOrderNumbers(orderList);         
     }           
     // -- "END" LIST ALL ORDERS  SECTION --
     

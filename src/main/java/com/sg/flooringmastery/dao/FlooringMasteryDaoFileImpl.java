@@ -171,7 +171,8 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     @Override
     public Orders addEditOrder(String date, String orderNumber, Orders order) 
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException {
-        Orders newOrder = myOrders.put(orderNumber, order);  
+        Orders newEditedOrder = myOrders.replace(orderNumber, order);
+        //newEditedOrder = myOrders.put(date, order);          
         
         try {             
             writeDateEditFile(date);
@@ -179,7 +180,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
             e.printStackTrace();
         }      
        
-        return newOrder;                
+        return newEditedOrder;                
     }  
     
 
@@ -239,16 +240,12 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     
 
     @Override
-    public Orders removeOrder(String orderDate, String orderNumber) 
+    public Orders removeOrder(String date, String orderNumber) 
             throws FlooringMasteryPersistenceException {
         Orders removedOrder = myOrders.remove(orderNumber);
-        try {        
-            loadOrder();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
         try {
-            writeOrder();
+            writeDateEditFile(date);
         } catch (IOException e) {
             e.printStackTrace();
         }        
@@ -299,9 +296,10 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
       Scanner scanner;  
         
       try {
-      File ORDERS_FILE = new File("C:\\Users\\travi\\OneDrive\\Desktop\\SG-Folder"
+      File ORDERS_FILE = new File("Order_"+date+".txt");    
+      /*File ORDERS_FILE = new File("C:\\Users\\travi\\OneDrive\\Desktop\\SG-Folder"
               + "\\online-java-2019-travismbenton\\Summatives\\m4-summative"
-              + "\\M4\\FlooringMastery\\Order_"+date+".txt");  
+              + "\\M4\\FlooringMastery\\Order_"+date+".txt");  */
               
       scanner = new Scanner(
                   new BufferedReader(
@@ -471,10 +469,12 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
 	    
 	    PrintWriter out;
 	    
-	    try {                
-	        out = new PrintWriter(new FileWriter("C:\\Users\\travi\\OneDrive\\Desktop\\SG-Folder"
+	    try { 
+                out = new PrintWriter(new FileWriter("Order_"+date+".txt"));
+                
+	        /*out = new PrintWriter(new FileWriter("C:\\Users\\travi\\OneDrive\\Desktop\\SG-Folder"
               + "\\online-java-2019-travismbenton\\Summatives\\m4-summative"
-              + "\\M4\\FlooringMastery\\Order_"+date+".txt"));
+              + "\\M4\\FlooringMastery\\Order_"+date+".txt")); */
 	    } catch (IOException e) {
 	        throw new FlooringMasteryPersistenceException(
 	                "Could not save order data.", e);
