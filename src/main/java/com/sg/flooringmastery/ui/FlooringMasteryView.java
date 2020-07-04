@@ -8,16 +8,12 @@ package com.sg.flooringmastery.ui;
 import com.sg.flooringmastery.dto.Orders;
 import com.sg.flooringmastery.dto.ProductLaborCost;
 import com.sg.flooringmastery.dto.ProductPrice;
+import com.sg.flooringmastery.dto.Products;
 import com.sg.flooringmastery.dto.TaxRates;
-import java.io.File;
-import static java.lang.System.out;
+import com.sg.flooringmastery.dto.Taxes;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Scanner;
-import org.eclipse.core.internal.runtime.Product;
 
 /**
  *
@@ -29,14 +25,19 @@ public class FlooringMasteryView {
     TaxRates taxRate;
     ProductPrice productPrice;
     ProductLaborCost productLaborCost; 
+    Taxes taxes;
+    Products products;
     
     // -- CONSTRUCTOR -- 
     public FlooringMasteryView (UserIO io, TaxRates taxRate, 
-            ProductPrice productPrice, ProductLaborCost productLaborCost){
+            ProductPrice productPrice, ProductLaborCost productLaborCost, 
+            Taxes taxes, Products products){
         this.io = io;
         this.taxRate = taxRate;
         this.productPrice = productPrice;
-        this.productLaborCost = productLaborCost;        
+        this.productLaborCost = productLaborCost;
+        this.taxes = taxes;
+        this.products = products;
     }
     // -- "END" CONSTRUCTOR -- 
     
@@ -46,15 +47,50 @@ public class FlooringMasteryView {
         io.print("1. Display Orders ");
         io.print("2. Add an Order ");
         io.print("3. Edit an Order ");
-        io.print("4. Remove an Order ");
-        io.print("5. Save Current Work ");
-        io.print("6. List all Orders ");        
-        io.print("7. Quit");
+        io.print("4. Remove an Order ");        
+        io.print("5. List Today's Orders ");        
+        io.print("6. Quit");
             
-        return io.readInt("Please select from the menu above. ", 1, 7);
+        return io.readInt("Please select from the menu above. ", 1, 6);
     }   
     
     //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    public int printTaxesMenuGetUserSelection(){
+        
+        io.print("<<Taxes - States>>");
+        io.print("1. Add State ");
+        io.print("2. Remove State ");
+        io.print("3. Find State ");               
+        io.print("4. Edit State ");
+        io.print("5. List All States ");
+        io.print("6. Exit ");      
+            
+        return io.readInt("Please select from the menu above. ", 1, 6);
+    }     
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    public int printProductMenuGetUserSelection(){
+        
+        io.print("<<Taxes - States>>");
+        io.print("1. Add Product ");
+        io.print("2. Remove Product ");
+        io.print("3. Find Product ");               
+        io.print("4. Edit Product ");
+        io.print("5. List All Products ");
+        io.print("6. Exit ");      
+            
+        return io.readInt("Please select from the menu above. ", 1, 6);
+    }   
+    
+    //---------------------------------------------------------|
+    
+    
     
     // -- ERROR MESSAGE SECTION --
     public void displayErrorMessage(String errorMsg) {
@@ -99,6 +135,7 @@ public class FlooringMasteryView {
     public void displayCreateOrderBanner() {
 	io.print("=== Create New Order ===");        
     }
+    
     public Orders getNewOrderInfo(){
         
         //LocalDate orderDate;// = LocalDate.now().format(DateTimeFormatter.ofPattern("MMDDYYYY"));
@@ -325,6 +362,7 @@ public class FlooringMasteryView {
 	    io.readString("Press enter to continue.");
             
     }
+    
     public Orders editExistingOrderInfo(Orders order){                
         
         String orderNumber = io.readString("Editing Order Number: "+order.getOrderNumber());
@@ -716,19 +754,6 @@ public class FlooringMasteryView {
                 break;
         }    
         
-        /*
-        if(productType.trim().length() == 0){
-            currentOrder.setProductType(order.getProductType());
-        } else {
-            currentOrder.setProductType(productType);
-        }  
-        
-        if(area.trim().length() == 0){
-            currentOrder.setArea(order.getArea());
-        } else {
-            currentOrder.setArea(area);
-        }
-        */
         
         // -- COST PER SQUARE FOOT --
         switch (productType.toLowerCase()){
@@ -764,11 +789,7 @@ public class FlooringMasteryView {
                 break;    
         }
         
-        if(area.trim().length() == 0){
-            currentOrder.setArea(order.getArea());
-        } else {
-            currentOrder.setArea(area);
-        }
+        
         // -- CALCULATIONS --
         
         //materialCost = area * costPerSquareFoot
@@ -854,7 +875,190 @@ public class FlooringMasteryView {
        
         return currentOrder;         
                
-    }
+    } 
+    
+    
+    
+    
+    /*
+    public Orders testGetNewOrderInfo(){
+        
+        //LocalDate orderDate;// = LocalDate.now().format(DateTimeFormatter.ofPattern("MMDDYYYY"));
+        String orderNumber = io.readString("\"System Generated\". Please press enter. ");
+        String orderDate = io.readString("Please enter Order Date. Formmat \"MMDDYYYY\" ");
+        String customerName = io.readString("Enter Customer Name. ");
+        //System.out.println(taxes.ohio.getStateName());
+        String state = io.readString("Enter Customer State. ");        
+        String productType = io.readString("\n"
+                +products.carpet.getProductType()+"   | $"+products.carpet.getCostPerSquareFoot()+"\n"
+                +products.laminate.getProductType()+" | $"+products.laminate.getCostPerSquareFoot()+"\n"
+                +products.wood.getProductType()+"     | $"+products.wood.getCostPerSquareFoot()+"\n"
+                +products.tile.getProductType()+"     | $"+products.tile.getCostPerSquareFoot()+"\n"
+                + "Enter Product Type.");
+        products.getProductType();
+        String area = io.readString("Enter Projected Area.(100ft Min) "); 
+        
+        // -- Create a new "Order" object --
+
+        Orders currentOrder = new Orders(orderNumber);// -- OrderNumber of the "New Order"
+        
+        currentOrder.setOrderDate(orderDate);
+        currentOrder.setCustomerName(customerName);
+        
+        currentOrder.setState(state);
+        currentOrder.setProductType(productType);
+        
+        currentOrder.setArea(area);
+        
+        
+        currentOrder.setTaxRate(state);
+        currentOrder.setMaterialCost(productType);
+        
+        //currentOrder.setLaborCostPerSquareFoot(products.getLaborCostPerSquareFoot());
+        
+        
+        
+        
+        switch (state.toLowerCase()){
+            case "OH":
+                currentOrder.setTaxRate(taxRate.getOH());
+                break;
+            case "PA":
+                currentOrder.setTaxRate(taxRate.getPA());                
+                break;
+            case "MI":
+                currentOrder.setTaxRate(taxRate.getMI());                
+                break;
+            case "IN":
+                currentOrder.setTaxRate(taxRate.getIN());                
+                break;
+            default:
+                break;
+        }      
+        
+        taxes.setStateAbbreviation(state);
+        taxes.setStateName(state);
+        taxes.setTaxRate(state);
+        products.setProductType(productType);        
+        products.setCostPerSquareFoot(productType);
+        products.setLaborCostPerSquareFoot(productType);
+        
+       
+        / -- CALCULATIONS --  
+        
+        MaterialCost = (Area * CostPerSquareFoot)
+	LaborCost = (Area * LaborCostPerSquareFoot)
+	Tax = ((MaterialCost + LaborCost) * (TaxRate/100))
+	Tax rates are stored as whole numbers
+	Total = (MaterialCost + LaborCost + Tax)  
+        
+        //materialCost = area * costPerSquareFoot
+        String materialCost = "0";       
+        BigDecimal decimalMaterialCost = new BigDecimal(materialCost);        
+        BigDecimal decimalArea = new BigDecimal(area);        
+        /*
+        BigDecimal decimalCarpetCostPerSquareFoot = new BigDecimal(productPrice.getCarpet());
+        BigDecimal decimalLaminateCostPerSquareFoot = new BigDecimal(productPrice.getLaminate());
+        BigDecimal decimalTileCostPerSquareFoot = new BigDecimal(productPrice.getTile());
+        BigDecimal decimalWoodCostPerSquareFoot = new BigDecimal(productPrice.getWood());
+        //laborCost = (area * laborCostPerSquareFoot)
+        String laborCost = "0";
+        BigDecimal decimalLaborCost = new BigDecimal(laborCost);
+        BigDecimal decimalCarpetLaborCostPerSquareFoot = new BigDecimal(productLaborCost.getCarpet());
+        //System.out.println("Carpet Labor Cost Test: "+decimalCarpetLaborCostPerSquareFoot);
+        BigDecimal decimalLaminateLaborCostPerSquareFoot = new BigDecimal(productLaborCost.getLaminate());
+        BigDecimal decimalTileLaborCostPerSquareFoot = new BigDecimal(productLaborCost.getTile());
+        BigDecimal decimalWoodLaborCostPerSquareFoot = new BigDecimal(productLaborCost.getWood());
+        String tax = "0";
+        BigDecimal decimalTax = new BigDecimal(tax);
+        BigDecimal decimalOHTaxRate = new BigDecimal(taxRate.getOH());
+        //System.out.println("Tax Test: "+decimalOHTaxRate);
+        BigDecimal decimalPATaxRate = new BigDecimal(taxRate.getPA());
+        BigDecimal decimalMITaxRate = new BigDecimal(taxRate.getMI());
+        BigDecimal decimalINTaxRate = new BigDecimal(taxRate.getIN());
+        //Total = (MaterialCost + LaborCost + Tax)
+        String total = "0";
+        BigDecimal decimalTotal = new BigDecimal(total);        
+        
+        // -- BIG DECIMAL  COST PER SQUARE FOOT --
+        switch (productType.toLowerCase()){
+            case "carpet":
+                decimalMaterialCost = decimalArea.multiply(decimalCarpetCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
+                decimalLaborCost = decimalArea.multiply(decimalCarpetLaborCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
+                break;
+            case "laminate":
+                decimalMaterialCost = decimalArea.multiply(decimalLaminateCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP); 
+                decimalLaborCost = decimalArea.multiply(decimalLaminateLaborCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP); 
+                break;
+            case "tile":
+                decimalMaterialCost = decimalArea.multiply(decimalTileCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);   
+                decimalLaborCost = decimalArea.multiply(decimalTileLaborCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
+                break;
+            case "wood":
+                decimalMaterialCost = decimalArea.multiply(decimalWoodCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);  
+                decimalLaborCost = decimalArea.multiply(decimalWoodLaborCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
+                break; 
+            default:
+                break;     
+        }        
+        
+        // -- BIG DECIMAL  TAX RATES --
+        switch (state.toUpperCase()){
+            case "OH":
+                decimalTax = decimalMaterialCost.add(decimalLaborCost).multiply(decimalOHTaxRate).setScale(2, RoundingMode.HALF_UP);
+                break;
+            case "PA":
+                 decimalTax = decimalMaterialCost.add(decimalLaborCost).multiply(decimalPATaxRate).setScale(2, RoundingMode.HALF_UP);               
+                break;
+            case "MI":
+                 decimalTax = decimalMaterialCost.add(decimalLaborCost).multiply(decimalMITaxRate).setScale(2, RoundingMode.HALF_UP);              
+                break;
+            case "IN":
+                 decimalTax = decimalMaterialCost.add(decimalLaborCost).multiply(decimalINTaxRate).setScale(2, RoundingMode.HALF_UP);               
+                break;
+            default:
+                break;
+        } 
+        
+        //Total = (MaterialCost + LaborCost + Tax)
+        decimalTotal = decimalMaterialCost.add(decimalLaborCost).add(decimalTax).setScale(2, RoundingMode.HALF_UP);
+        
+        // -- Big Decimal  Conversion back to String --
+        materialCost = decimalMaterialCost.toString();
+        currentOrder.setMaterialCost(materialCost);
+        laborCost = decimalLaborCost.toString();
+        currentOrder.setLaborCost(laborCost);        
+        tax = decimalTax.toString();
+        currentOrder.setTax(tax);
+        total = decimalTotal.toString();        
+        currentOrder.setTotal(total);                            
+        
+        
+        return currentOrder;         
+               
+    }  */
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD TAXES INFORMATION  SECTION --    
+    
+    
+    
+    // -- "END" ADD TAXES INFORMATION  SECTION --
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD PRODUCTS INFORMATION  SECTION --    
+    
+    
+    
+    // -- "END" ADD PRODUCTS INFORMATION  SECTION --
+    
+    //---------------------------------------------------------|
     
 
 }

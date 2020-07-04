@@ -7,6 +7,8 @@ package com.sg.flooringmastery.controller;
 
 import com.sg.flooringmastery.dao.FlooringMasteryPersistenceException;
 import com.sg.flooringmastery.dto.Orders;
+import com.sg.flooringmastery.dto.Products;
+import com.sg.flooringmastery.dto.Taxes;
 import com.sg.flooringmastery.service.FloorMasteryValidateSubmitException;
 import com.sg.flooringmastery.service.FlooringMasteryDataValidationException;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
@@ -56,17 +58,14 @@ public class FlooringMasteryController {
                     break;
                 case 4:
                     removeOrder();
-                    break;
+                    break;                
                 case 5:
-                    saveCurrentWork();
-                    break;
-                case 6:
                     listAllOrders();
                     break;                
-                case 7:
+                case 6:
                     keepGoing = false;
                     break;
-                case 8:
+                case 7:
                     unknownCommand();
                     break;
      
@@ -85,16 +84,132 @@ public class FlooringMasteryController {
                    
             
     } // -- "END" RUN --
-        
     
-    
-    // -- CONTROLLER --
     //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    public void taxes() throws FlooringMasteryPersistenceException, 
+                             FlooringMasteryDuplicateIdException, 
+                             FlooringMasteryDataValidationException,
+                             FloorMasteryValidateSubmitException{
+        
+        int menuSelection = 0;
+        boolean keepGoing = true;
+        try {
+        while (keepGoing){            
+            
+            menuSelection = getTaxesMenuSelection();
+            
+
+            switch (menuSelection){
+                case 1:
+                    addState();
+                    break;
+                case 2:
+                    removeState();
+                    break;
+                case 3:
+                    findState();
+                    break;
+                case 4:
+                    editState();
+                    break;
+                case 5:
+                    listAllStates();
+                    break;    
+                case 6:
+                    keepGoing = false;
+                    break;
+                case 7:
+                    unknownCommand();
+                    break;
+     
+            } // -- "END" SWITCH --            
+           
+            
+        } // -- "END" WHILE LOOP --
+        exitMessage();
+        
+        } catch (FlooringMasteryPersistenceException | NumberFormatException 
+                | NullPointerException | ArrayIndexOutOfBoundsException e){
+
+            taxes();
+            //view.displayErrorMessage(e.getMessage());
+        }        
+                   
+            
+    } // -- "END" RUN --
+    
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    public void products() throws FlooringMasteryPersistenceException, 
+                             FlooringMasteryDuplicateIdException, 
+                             FlooringMasteryDataValidationException,
+                             FloorMasteryValidateSubmitException{
+        
+        int menuSelection = 0;
+        boolean keepGoing = true;
+        //try {
+        while (keepGoing){            
+            
+            menuSelection = getProductsMenuSelection();
+            
+
+            switch (menuSelection){
+                case 1:
+                    //addProduct();
+                    break;
+                case 2:
+                    //removeProduct();
+                    break;
+                case 3:
+                    //findProduct();
+                    break;
+                case 4:
+                    //editProduct();
+                    break;
+                case 5:
+                    //listAllProducts();
+                    break;                               
+                case 6:
+                    keepGoing = false;
+                    break;
+                case 7:
+                    unknownCommand();
+                    break;
+     
+            } // -- "END" SWITCH --            
+           
+            
+        } // -- "END" WHILE LOOP --
+        exitMessage();
+        
+    /*    } catch (FlooringMasteryPersistenceException | NumberFormatException 
+                | NullPointerException | ArrayIndexOutOfBoundsException e){
+
+            products();
+            //view.displayErrorMessage(e.getMessage());
+        }        */
+                   
+            
+    } // -- "END" RUN --
+    
+     //---------------------------------------------------------|
     
     // -- Menu Section --    
     public int getMenuSelection(){
         return view.printMenuGetUserSelection();
     }    
+    public int getTaxesMenuSelection(){
+        return view.printTaxesMenuGetUserSelection();
+    } 
+    public int getProductsMenuSelection(){
+        return view.printProductMenuGetUserSelection();
+    } 
     private void unknownCommand(){
         view.displayUnknownMenuBanner();
     }        
@@ -109,8 +224,8 @@ public class FlooringMasteryController {
     // -- DISPLAY ORDERS  SECTION --    
     private void displayOrders() throws FlooringMasteryPersistenceException {
         view.displayOrdersListBanner();
-        String orderDate = view.getOrderDateChoice();
-        service.getTXTOrder(orderDate);         
+        String date = view.getOrderDateChoice();
+        service.getTXTOrder(date);         
         view.displayOrdersListSuccessBanner();  
     }           
     // -- "END" DISPLAY ORDERS  SECTION --
@@ -145,6 +260,34 @@ public class FlooringMasteryController {
         } while(hasErrors);    
     }         
     // -- "END" ADD ORDER  SECTION --
+    /*
+    private void createOrder() throws FlooringMasteryPersistenceException, 
+                                   FlooringMasteryDuplicateIdException, 
+                                   FloorMasteryValidateSubmitException,
+                                   FlooringMasteryDataValidationException {
+        view.displayCreateOrderBanner();
+        boolean hasErrors = false;
+        do {    
+            //Orders order = ;
+                Orders newOrder = view.testGetNewOrderInfo();                
+            try {
+                view.displayVerifyOrderSummary(newOrder);
+                service.createOrder(newOrder);                
+                view.displayCreateOrderSuccessBanner();  
+                hasErrors = false;
+            } catch (FlooringMasteryDataValidationException | 
+                     FlooringMasteryDuplicateIdException | 
+                     FlooringMasteryPersistenceException e) {                      
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+            } catch (FloorMasteryValidateSubmitException e) {
+                hasErrors = true;
+                run();
+            }
+                
+        } while(hasErrors);    
+    }     */    
+    // -- "END" ADD ORDER  SECTION --
     
     //---------------------------------------------------------|    
         
@@ -159,6 +302,11 @@ public class FlooringMasteryController {
                 String date = view.getEditOrderDateChoice();
                 String existingOrderNumber = view.getEditOrderNumberChoice();                
                 Orders order = service.getEditTXTOrder(date, existingOrderNumber);
+                if (order == null){
+                    System.out.println("");
+                    System.out.println("No such \"Order Number\" exist.");
+                    System.out.println("");
+                }
                 Orders newEditedOrder = view.editExistingOrderInfo(order);            
         try {
                 view.displayVerifyEditedOrderSummary(newEditedOrder);
@@ -212,19 +360,6 @@ public class FlooringMasteryController {
     
     //---------------------------------------------------------| 
         
-    // -- SAVE CURRENT WORK  SECTION --    
-    private void saveCurrentWork() throws FlooringMasteryPersistenceException, 
-                                          FlooringMasteryDuplicateIdException,
-                                          FlooringMasteryDataValidationException,
-                                          FloorMasteryValidateSubmitException {
-        view.displaySaveCurrentWorkBanner();
-        run();
-        view.displaySaveCurrentWorkSuccessBanner();
-    }    
-    // -- "END" SAVE CURRENT WORK  SECTION --
-    
-    //---------------------------------------------------------|   
-    
     // -- LIST ALL ORDERS  SECTION --    
     private void listAllOrders() throws FlooringMasteryPersistenceException {
         view.displayListAllOrdersBanner();
@@ -264,4 +399,136 @@ public class FlooringMasteryController {
         run();
     }
     // -- "END" SEARCH BY ORDER NUMBERS  SECTION --
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD TAXES INFORMATION  SECTION --    
+    
+    // -- ADD  SECTION --    
+    private void addState() throws FlooringMasteryPersistenceException{
+        view.displayAddStateBanner();
+        Taxes newState = view.getNewStateInfo();
+        service.addState(newState.getStateAbbreviation(), newState);
+        view.displayAddStateSuccessfulBanner();
+    }           
+    // -- "END" ADD  SECTION --
+    
+    //---------------------------------------------------------| 
+    
+    // -- REMOVE  SECTION --    
+    private void removeState() throws FlooringMasteryPersistenceException{
+        view.displayRemoveDancerBanner();
+        String stateAbbreviation = view.getDanceTypeChoice();
+        Taxes removeState = service.removeState(stateAbbreviation);
+        
+        if (stateAbbreviation != null){
+        view.displayRemoveDancerSuccessfullBanner();
+        } else {
+           listAllDancer(); 
+        }
+    }        
+    // -- "END" REMOVE  SECTION --
+    
+    //---------------------------------------------------------|
+        
+    // -- FIND  SECTION --    
+    private void findState() throws FlooringMasteryPersistenceException{
+        view.displayFindDancerBanner();
+        String state = view.getDanceTypeChoice();
+        Taxes dancer = service.getState(state);
+        view.displayFindDancer(state);        
+    }         
+    // -- "END" FIND  SECTION --
+    
+    //---------------------------------------------------------|            
+    
+    // -- EDIT  SECTION --
+    private void editState() throws FlooringMasteryPersistenceException{
+        view.displayEditDancerBanner();
+        Taxes newState = view.getNewStateInfo();
+        service.addState(newState.getStateAbbreviation(), newState);
+            }           
+    // -- "END" EDIT  SECTION --
+    
+    //---------------------------------------------------------| 
+        
+    // -- LIST  SECTION --         
+    private void listAllStates() throws FlooringMasteryPersistenceException{
+        view.displayListAllDancersBanner();
+        List<Taxes> stateList = service.listAllStates();
+        view.displayDancerList(stateList);
+    }    
+    // -- "END" LIST  SECTION --
+    
+    
+    // -- "END" ADD TAXES INFORMATION  SECTION --
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD PRODUCTS INFORMATION  SECTION --    
+    
+    // -- ADD  SECTION --    
+    private void addProduct() throws FlooringMasteryPersistenceException{
+        view.displayAddProductBanner();
+        Products newProduct = view.getNewProductInfo();
+        service.addProduct(newProduct.getProductType(), newProduct);
+        view.displayAddProductSuccessfulBanner();
+    }           
+    // -- "END" ADD  SECTION --
+    
+    //---------------------------------------------------------| 
+    
+    // -- REMOVE  SECTION --    
+    private void removeProduct() throws FlooringMasteryPersistenceException{
+        view.displayRemoveProductBanner();
+        String removeProductType = view.getProductTypeChoice();
+        Products removeProduct = service.removeProduct(removeProductType);
+        
+        if (removeProductType != null){
+        view.displayRemoveProductSuccessfullBanner();
+        } else {
+           listAllProducts(); 
+        }
+    }        
+    // -- "END" REMOVE  SECTION --
+    
+    //---------------------------------------------------------|
+        
+    // -- FIND  SECTION --    
+    private void findProduct() throws FlooringMasteryPersistenceException{
+        view.displayFindProductBanner();
+        String productType = view.getProductTypeChoice();
+        Products product = service.getProduct(productType);
+        view.displayFindProduct(product);        
+    }         
+    // -- "END" FIND  SECTION --
+    
+    //---------------------------------------------------------|            
+    
+    // -- EDIT  SECTION --
+    private void editProduct() throws FlooringMasteryPersistenceException{
+        view.displayEditProductBanner();
+        Products newProduct = view.getNewProductInfo();
+        service.addProduct(newProduct.getProductType(), newProduct);
+        }           
+    // -- "END" EDIT  SECTION --
+    
+    //---------------------------------------------------------| 
+        
+    // -- LIST  SECTION --         
+    private void listAllProducts() throws FlooringMasteryPersistenceException{
+        view.displayListAllProductsBanner();
+        List<Products> stateList = service.listAllProducts();
+        view.displayProductList(stateList);
+    }    
+    // -- "END" LIST  SECTION --
+    
+    
+    // -- "END" ADD PRODUCTS INFORMATION  SECTION --
+    
+    //---------------------------------------------------------|
 }

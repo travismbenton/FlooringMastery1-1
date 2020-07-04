@@ -5,10 +5,49 @@
  */
 package com.sg.flooringmastery.dto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author travi
  */
-public class Products {
+public class Products {    
+        
+    private String productType;
+    private BigDecimal costPerSquareFoot;
+    private BigDecimal laborCostPerSquareFoot;
+    
+    
+    public Products(String productType) {
+        this.productType = productType;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public BigDecimal getCostPerSquareFoot() {
+        return costPerSquareFoot;
+    }
+
+    public void setCostPerSquareFoot(String costPerSquareFoot) {
+        this.costPerSquareFoot = new BigDecimal(costPerSquareFoot);
+    }
+
+    public BigDecimal getLaborCostPerSquareFoot() {
+        return laborCostPerSquareFoot;
+    }
+
+    public void setLaborCostPerSquareFoot(String laborCostPerSquareFoot) {
+        this.laborCostPerSquareFoot = new BigDecimal(laborCostPerSquareFoot);
+    }
+
+    
+    
+    
     
 }

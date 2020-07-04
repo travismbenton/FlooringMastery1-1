@@ -11,6 +11,14 @@ package com.sg.flooringmastery.dto;
  */
 public class Orders {
     
+   /* Taxes taxes;
+    Products products;
+    
+    public Orders(Taxes taxes, Products products){
+        this.taxes = taxes;
+        this.products = products;
+    } */
+    
     private String orderNumber;
     private String orderDate;
     private String customerName;

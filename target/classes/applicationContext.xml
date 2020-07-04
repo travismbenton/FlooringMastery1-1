@@ -29,24 +29,40 @@
     <bean id="productLaborCost" 
           class="com.sg.flooringmastery.dto.ProductLaborCost"/>
     
+    <bean id="taxes" 
+          class="com.sg.flooringmastery.dto.Taxes"/>
+ 
+    <bean id="products" 
+          class="com.sg.flooringmastery.dto.Products"/>      
+    
     <bean id="view" 
           class="com.sg.flooringmastery.ui.FlooringMasteryView">
         <constructor-arg ref="userIO"/>
         <constructor-arg ref="taxRate"/>
         <constructor-arg ref="productPrice"/>
-        <constructor-arg ref="productLaborCost"/>        
-    </bean>
-    
+        <constructor-arg ref="productLaborCost"/>
+        <constructor-arg ref="taxes"/>
+        <constructor-arg ref="products"/>                              
+    </bean>    
+        
     <bean id="flooringMasteryDao" 
           class="com.sg.flooringmastery.dao.FlooringMasteryDaoFileImpl"/>
     
     <bean id="auditDao" 
           class="com.sg.flooringmastery.dao.FlooringMasteryAuditDaoImpl"/>
     
+    <bean id="flooringMasteryTaxesDao" 
+          class="com.sg.flooringmastery.dao.FlooringMasteryTaxesDaoFileImpl"/>
+    
+    <bean id="flooringMasteryProductsDao" 
+          class="com.sg.flooringmastery.dao.FlooringMasteryProductsDaoFileImpl"/>
+    
     <bean id="serviceLayer" 
           class="com.sg.flooringmastery.service.FlooringMasteryServiceLayerImpl">
         <constructor-arg ref="flooringMasteryDao"/>
         <constructor-arg ref="auditDao"/> 
+        <constructor-arg ref="flooringMasteryTaxesDao"/>
+        <constructor-arg ref="flooringMasteryProductsDao"/>
     </bean>      
     
     <bean id="controller" 

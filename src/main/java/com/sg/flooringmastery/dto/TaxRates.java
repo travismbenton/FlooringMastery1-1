@@ -10,7 +10,7 @@ package com.sg.flooringmastery.dto;
  * @author travi
  */
 public class TaxRates {
-    
+
     private String OH = ".0625";
     private String PA = ".0675";
     private String MI = ".0575";
@@ -46,7 +46,7 @@ public class TaxRates {
 
     public void setIN(String IN) {
         this.IN = IN;
-    }
+    } 
 
     
     

@@ -6,6 +6,8 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dto.Orders;
+import com.sg.flooringmastery.dto.Products;
+import com.sg.flooringmastery.dto.Taxes;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public interface FlooringMasteryDao {
     List<Orders> getAllOrders()
             throws FlooringMasteryPersistenceException;
     
-    Orders getTXTOrder (String orderDate)
+    Orders getTXTOrder (String date)
             throws FlooringMasteryPersistenceException;
     
     Orders getEditTXTOrder (String date, String orderNumber)
@@ -51,6 +53,7 @@ public interface FlooringMasteryDao {
     public List<Orders> getAssignedOrderNumbers (String orderNumber)
             throws FlooringMasteryPersistenceException;
     
+        
     
     
 }

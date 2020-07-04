@@ -7,6 +7,8 @@ package com.sg.flooringmastery.service;
 
 import com.sg.flooringmastery.dao.FlooringMasteryPersistenceException;
 import com.sg.flooringmastery.dto.Orders;
+import com.sg.flooringmastery.dto.Products;
+import com.sg.flooringmastery.dto.Taxes;
 import java.util.List;
 
 /**
@@ -46,4 +48,50 @@ public interface FlooringMasteryServiceLayer {
     
     public List<Orders> getOrdersByOrderNumber(String orderNumber) 
            throws FlooringMasteryPersistenceException;
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD TAXES AND PRODUCTS INFORMATION  SECTION --     
+    
+    
+    Taxes addState(String stateAbbreviation, Taxes state)
+            throws FlooringMasteryPersistenceException;
+                
+    
+    Taxes removeState(String stateAbbreviation)
+            throws FlooringMasteryPersistenceException;
+            
+    
+    Taxes getState(String stateAbbreviation)
+            throws FlooringMasteryPersistenceException;
+            
+        
+    List<Taxes> listAllStates()
+            throws FlooringMasteryPersistenceException; 
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    
+    Products addProduct(String productType, Products product)
+            throws FlooringMasteryPersistenceException;
+                
+    
+    Products removeProduct(String productType)
+            throws FlooringMasteryPersistenceException;
+            
+    
+    Products getProduct(String productType)
+            throws FlooringMasteryPersistenceException;
+            
+        
+    List<Products> listAllProducts()
+            throws FlooringMasteryPersistenceException;
+    
+    
+    
+    
 }

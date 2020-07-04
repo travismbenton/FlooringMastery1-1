@@ -8,7 +8,11 @@ package com.sg.flooringmastery.service;
 import com.sg.flooringmastery.dao.FlooringMasteryAuditDao;
 import com.sg.flooringmastery.dao.FlooringMasteryDao;
 import com.sg.flooringmastery.dao.FlooringMasteryPersistenceException;
+import com.sg.flooringmastery.dao.FlooringMasteryProductsDao;
+import com.sg.flooringmastery.dao.FlooringMasteryTaxesDao;
 import com.sg.flooringmastery.dto.Orders;
+import com.sg.flooringmastery.dto.Products;
+import com.sg.flooringmastery.dto.Taxes;
 import java.util.List;
 
 /**
@@ -19,12 +23,17 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
 
     private FlooringMasteryDao dao;
     private FlooringMasteryAuditDao auditDao; 
+    private FlooringMasteryTaxesDao taxesDao;
+    private FlooringMasteryProductsDao productsDao;
     
     
     // -- Constructor --
-    public FlooringMasteryServiceLayerImpl(FlooringMasteryDao dao, FlooringMasteryAuditDao auditDao){
+    public FlooringMasteryServiceLayerImpl(FlooringMasteryDao dao, FlooringMasteryAuditDao auditDao,
+            FlooringMasteryTaxesDao taxesDao, FlooringMasteryProductsDao productsDao){
         this.dao = dao;
         this.auditDao = auditDao;
+        this.taxesDao = taxesDao;
+        this.productsDao = productsDao;
     }
     // -- "END" Constructor --
 
@@ -39,6 +48,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }
                            
         validateRequiredFields(order);
+        validateState(order);
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
         dao.addOrder(order.getOrderNumber(), order);
@@ -94,7 +104,19 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             throw new FlooringMasteryDataValidationException (
                     "ERROR: [Customer Name] is a required field.");                                        
         }         
-    }    
+    }   
+    
+    private void validateState(Orders order) throws 
+            FlooringMasteryDataValidationException {        
+        if (order.getState().equalsIgnoreCase("oh") || order.getState().equalsIgnoreCase("mi") 
+            || order.getState().equalsIgnoreCase("pa") || order.getState().equalsIgnoreCase("in")){           
+                                                   
+        } else {
+            throw new FlooringMasteryDataValidationException (
+                    "INVALID STATE: [OH, MI, PA, IN] Please select from states shown"); 
+        }        
+       
+   }
     
     
     private void validateAreaSquareFeet(Orders order) throws 
@@ -150,10 +172,68 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
    public List<Orders> getOrdersByOrderNumber(String orderNumber) 
            throws FlooringMasteryPersistenceException {
         return dao.getAssignedOrderNumbers(orderNumber);
-    }     
+    } 
+   
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+    
+    // -- ADD TAXES AND PRODUCTS INFORMATION  SECTION -- 
+
+    @Override
+    public Taxes addState(String stateAbbreviation, Taxes state) 
+            throws FlooringMasteryPersistenceException {
+        return taxesDao.addState(stateAbbreviation, state);
+    }
+
+    @Override
+    public Taxes removeState(String stateAbbreviation) 
+            throws FlooringMasteryPersistenceException {
+        return taxesDao.removeState(stateAbbreviation);
+    }
+
+    @Override
+    public Taxes getState(String stateAbbreviation) 
+            throws FlooringMasteryPersistenceException {
+        return taxesDao.getState(stateAbbreviation);
+    }
+
+    @Override
+    public List<Taxes> listAllStates() 
+            throws FlooringMasteryPersistenceException {
+        return taxesDao.listAllStates();
+    }
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+
+    @Override
+    public Products addProduct(String productType, Products product) 
+            throws FlooringMasteryPersistenceException {
+        return productsDao.addProduct(productType, product);
+    }
+
+    @Override
+    public Products removeProduct(String productType) 
+            throws FlooringMasteryPersistenceException {
+        return productsDao.removeProduct(productType);
+    }
+
+    @Override
+    public Products getProduct(String productType) 
+            throws FlooringMasteryPersistenceException {
+        return productsDao.getProduct(productType);
+    }
+
+    @Override
+    public List<Products> listAllProducts() 
+            throws FlooringMasteryPersistenceException {
+        return productsDao.listAllProducts();
+    }
 
     
-
+   
     
         
     

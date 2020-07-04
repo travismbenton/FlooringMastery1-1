@@ -10,7 +10,7 @@ package com.sg.flooringmastery.dto;
  * @author travi
  */
 public class ProductPrice {
-    
+   
     private String carpet = "2.25";    
     private String laminate = "1.75";   
     private String tile = "3.50";    
@@ -47,7 +47,7 @@ public class ProductPrice {
 
     public void setWood(String wood) {
         this.wood = wood;
-    }
+    } 
 
     
     
