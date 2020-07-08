@@ -1,3 +1,0 @@
-2::06062021::ffff::rr::null::tile::100::null::null::null::null::null::null
-3::05092022::gfg::oh::null::wood::200::null::null::null::null::null::null
-7::05052021::Smith::oh::.0625::tile::200::3.50::4.15::700.00::830.00::95.63::1625.63

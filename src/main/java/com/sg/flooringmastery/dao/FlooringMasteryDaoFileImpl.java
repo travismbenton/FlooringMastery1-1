@@ -6,8 +6,6 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dto.Orders;
-import com.sg.flooringmastery.dto.Products;
-import com.sg.flooringmastery.dto.Taxes;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +31,7 @@ import java.util.stream.Collectors;
 public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     
     private Map<String, Orders> myOrders = new HashMap<>();
-    
+    //public static final String ORDERS_FILE = "orders.txt";
     public static final String DELIMITER = "::"; 
     
     
@@ -174,10 +172,10 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     @Override
     public Orders addEditOrder(String date, String orderNumber, Orders order) 
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException {
-        Orders newEditedOrder = myOrders.replace(orderNumber, order);
-        //newEditedOrder = myOrders.put(date, order);  ---- ADDS NEW ORDER ON THAT DATE ----     
+        Orders newEditedOrder = myOrders.put(orderNumber, order);        
+        //Orders newEditedOrder = myOrders.put(date, order); // ---- ADDS NEW ORDER ON THAT DATE ----     
         
-        try {             
+        try {            
             writeDateEditFile(date);
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,8 +214,24 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         return myOrders.get(date);        
     } 
     
-    @Override
+    @Override // -- USED FOR REMOVE --
     public Orders getEditTXTOrder(String date, String orderNumber) 
+            throws FlooringMasteryPersistenceException {
+        
+        try {            
+            loadDateEditFile(date);
+            //loadOrder();
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+        return myOrders.get(orderNumber);   
+    }
+    
+    @Override // -- USE FOR EDIT --
+    public Orders getEditTXTOrder2(String date, String orderNumber) 
             throws FlooringMasteryPersistenceException {
         
         try {            
@@ -281,7 +295,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
       Scanner scanner;
       
       try { 
-    
+    //myOrders = new HashMap<>();
     File ORDERS_FILE = new File("Order_"+date+".txt");    
               
       scanner = new Scanner(
@@ -338,63 +352,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     }
     
    
-    // -- loadRoster() 2 --
-    private String loadDateEditFile(String date) throws FileNotFoundException, 
-            FlooringMasteryPersistenceException {
-      Scanner scanner;  
-      //myOrders = new HashMap<>();
-        
-      try {
-          
-          
-      File ORDERS_FILE = new File("Order_"+date+".txt");    
-              
-      scanner = new Scanner(
-                  new BufferedReader(
-                  new FileReader(ORDERS_FILE)));
-        
-        String currentLine;        
-        String[] currentTokens;
-
-        
-        while(scanner.hasNextLine()){
-            currentLine = scanner.nextLine();
-            //System.out.println(currentLine);
-            currentTokens = currentLine.split(DELIMITER);             
-            
-           //Taxes taxes; Products products; 
-           Orders currentOrder = new Orders(currentTokens[0]);  
-            
-            
-            System.out.println("Assigned Order Number: "+currentTokens[0]);
-            currentOrder.setOrderDate(currentTokens[1]);
-            //System.out.println("Order Fulfillment Date: "+currentTokens[1]);
-            currentOrder.setCustomerName(currentTokens[2]);
-	    currentOrder.setState(currentTokens[3]);
-	    currentOrder.setTaxRate(currentTokens[4]);
-            currentOrder.setProductType(currentTokens[5]);
-	    currentOrder.setArea(currentTokens[6]);
-	    currentOrder.setCostPerSquareFoot(currentTokens[7]);
-            currentOrder.setLaborCostPerSquareFoot(currentTokens[8]);
-	    currentOrder.setMaterialCost(currentTokens[9]);
-	    currentOrder.setLaborCost(currentTokens[10]);
-            currentOrder.setTax(currentTokens[11]);
-	    currentOrder.setTotal(currentTokens[12]);
-           
-            myOrders.put(currentOrder.getOrderNumber(), currentOrder);            
-        
-        }            
-        
-        scanner.close();           
-         
     
-    } catch (FileNotFoundException e){
-          System.out.println("-_- No such Orders exist.");
-          throw new FlooringMasteryPersistenceException(
-                    "-_- Could not load order data into memory", e);
-      }
-      return date;
-    } // -- loadRoster() 2 --
     
     
     
@@ -419,7 +377,8 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         Scanner scanner;
         
         
-        try {   
+        try {
+            
             // Create Scanner for "READING" the file            
             File ORDERS_FILE = new File("Order_"+LocalDate.now().format(DateTimeFormatter.ofPattern("MMddyyyy"))+".txt");                 
             
@@ -470,6 +429,8 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
              
     
     
+    
+    
 
 
     // -- WRITE - ROSTER --
@@ -514,6 +475,70 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
             //System.out.println("WRITE-FILE MESSAGE:  Successfully wrote to the file.");
             
     } // -- writeRoster() --    
+    
+    
+    
+    
+    
+    
+    
+    // -- loadRoster() 2 --
+    private String loadDateEditFile(String date) throws FileNotFoundException, 
+            FlooringMasteryPersistenceException {
+      Scanner scanner;  
+      
+        
+      try {
+      myOrders = new HashMap<>();    
+          
+      File ORDERS_FILE = new File("Order_"+date+".txt");    
+              
+      scanner = new Scanner(
+                  new BufferedReader(
+                  new FileReader(ORDERS_FILE)));
+        
+        String currentLine;        
+        String[] currentTokens;
+
+        
+        while(scanner.hasNextLine()){
+            currentLine = scanner.nextLine();
+            //System.out.println(currentLine);
+            currentTokens = currentLine.split(DELIMITER);             
+            
+           //Taxes taxes; Products products; 
+           Orders currentOrder = new Orders(currentTokens[0]);  
+            
+            
+            System.out.println("Assigned Order Number: "+currentTokens[0]);
+            currentOrder.setOrderDate(currentTokens[1]);
+            //System.out.println("Order Fulfillment Date: "+currentTokens[1]);
+            currentOrder.setCustomerName(currentTokens[2]);
+	    currentOrder.setState(currentTokens[3]);
+	    currentOrder.setTaxRate(currentTokens[4]);
+            currentOrder.setProductType(currentTokens[5]);
+	    currentOrder.setArea(currentTokens[6]);
+	    currentOrder.setCostPerSquareFoot(currentTokens[7]);
+            currentOrder.setLaborCostPerSquareFoot(currentTokens[8]);
+	    currentOrder.setMaterialCost(currentTokens[9]);
+	    currentOrder.setLaborCost(currentTokens[10]);
+            currentOrder.setTax(currentTokens[11]);
+	    currentOrder.setTotal(currentTokens[12]);
+           
+            myOrders.put(currentOrder.getOrderNumber(), currentOrder);            
+        
+        }            
+        
+        scanner.close();           
+         
+    
+    } catch (FileNotFoundException e){
+          System.out.println("-_- No such Orders exist.");
+          throw new FlooringMasteryPersistenceException(
+                    "-_- Could not load order data into memory", e);
+      }
+      return date;
+    } // -- loadRoster() 2 --
 
     
     // -- WRITE - ROSTER 2 --
@@ -556,6 +581,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
 	    } 
             
 	    // Clean up
+            
 	    out.close();
             //System.out.println("WRITE-FILE MESSAGE:  Successfully wrote to the file.");
             

@@ -42,6 +42,9 @@ public interface FlooringMasteryDao {
     Orders getEditTXTOrder (String date, String orderNumber)
             throws FlooringMasteryPersistenceException;
     
+    Orders getEditTXTOrder2 (String date, String orderNumber)
+            throws FlooringMasteryPersistenceException;
+    
     Orders getOrder(String orderNumber)
             throws FlooringMasteryPersistenceException;       
     

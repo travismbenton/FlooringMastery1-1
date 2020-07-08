@@ -37,6 +37,9 @@ public interface FlooringMasteryServiceLayer {
     
     public Orders getEditTXTOrder(String date, String orderNumber) throws
             FlooringMasteryPersistenceException;
+    
+    public Orders getEditTXTOrder2(String date, String orderNumber) throws
+            FlooringMasteryPersistenceException;
  
     public Orders getOrder(String orderNumber) throws
             FlooringMasteryPersistenceException;

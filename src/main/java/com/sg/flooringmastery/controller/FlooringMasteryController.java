@@ -336,42 +336,41 @@ public class FlooringMasteryController {
                                     FloorMasteryValidateSubmitException,
                                     FlooringMasteryDataValidationException,
                                     FlooringMasteryDuplicateIdException {
+
+
         view.displayEditOrderBanner();
         
         boolean hasErrors = false;
         do {
                 String date = view.getEditOrderDateChoice();
                 String existingOrderNumber = view.getEditOrderNumberChoice();
-                Orders order = service.getEditTXTOrder(date, existingOrderNumber);
+                Orders order = service.getEditTXTOrder2(date, existingOrderNumber);                
                 if (order == null){
                     System.out.println("");
                     System.out.println("No such \"Order Number\" exist.");
-                    System.out.println("");
-                }
+                    System.out.println(""); }                
                 
                 System.out.println("");
                 System.out.println("State: "+order.getState()+" \"Select\" new state or press enter."); 
                 String state = view.getStateChoice().toLowerCase();
-                Taxes taxes = service.getState(state); 
-                if(state.trim().length() == 0){
-                order.setState(order.getState());
-                }System.out.println("");
-                
+                if(state.trim().length() == 0){                    
+                 state = order.getState(); }
+                Taxes taxes = service.getState(state); System.out.println(""); 
+                System.out.println("");                 
         
                 System.out.println("Item  | Cost  | Labor Cost");
                 List<Products> productList;
                 productList = service.listAllProducts();
-                view.displayProductList(productList);System.out.println("");                
+                view.displayProductList(productList); System.out.println("");                
                 
                 System.out.println("Product: "+order.getProductType()+" \"Select\" new product or press enter.");
                 String productType = view.getProductTypeChoice().toLowerCase();
-                Products products = service.getProduct(productType);   
                 if(productType.trim().length() == 0){
-                order.setProductType(order.getProductType());
-                }System.out.println("");
+                 productType = order.getProductType(); }
+                Products products = service.getProduct(productType); System.out.println("");                                  
         
                 
-                Orders newEditedOrder = view.editExistingOrderInfo(order,productList, taxes, products);            
+                Orders newEditedOrder = view.editExistingOrderInfo22(order ,productList, taxes, products);            
         try {
                 view.displayVerifyEditedOrderSummary(newEditedOrder);
                 service.editOrder(date, newEditedOrder);

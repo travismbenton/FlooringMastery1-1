@@ -76,8 +76,13 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         return dao.getTXTOrder(orderDate);
     }
     
-    @Override
+    @Override // -- USED FOR REMOVE
     public Orders getEditTXTOrder(String date, String orderNumber) throws FlooringMasteryPersistenceException {
+        return dao.getEditTXTOrder(date, orderNumber);
+    }
+    
+    @Override // -- USED FOR EDIT
+    public Orders getEditTXTOrder2(String date, String orderNumber) throws FlooringMasteryPersistenceException {
         return dao.getEditTXTOrder(date, orderNumber);
     }
 
