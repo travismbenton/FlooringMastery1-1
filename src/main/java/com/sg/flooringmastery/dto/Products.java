@@ -17,10 +17,14 @@ public class Products {
     private BigDecimal costPerSquareFoot;
     private BigDecimal laborCostPerSquareFoot;
     
-    
-    public Products(String productType) {
-        this.productType = productType;
+    // -- CONSTRUCTOR -- 
+    public Products(String productType){
+        this.productType=productType;
     }
+    public String toString() { 
+        return productType + " " + costPerSquareFoot + " " + laborCostPerSquareFoot; 
+    } 
+    // -- CONSTRUCTOR --
 
     public String getProductType() {
         return productType;
@@ -44,9 +48,7 @@ public class Products {
 
     public void setLaborCostPerSquareFoot(String laborCostPerSquareFoot) {
         this.laborCostPerSquareFoot = new BigDecimal(laborCostPerSquareFoot);
-    }
-
-    
+    }   
     
     
     

@@ -18,31 +18,11 @@
  
     <!-- Bean definitions go here -->
     <bean id="userIO" 
-          class="com.sg.flooringmastery.ui.UserIOConsoleImpl"/>    
-    
-    <bean id="taxRate" 
-          class="com.sg.flooringmastery.dto.TaxRates"/>
- 
-    <bean id="productPrice" 
-          class="com.sg.flooringmastery.dto.ProductPrice"/>  
-    
-    <bean id="productLaborCost" 
-          class="com.sg.flooringmastery.dto.ProductLaborCost"/>
-    
-    <bean id="taxes" 
-          class="com.sg.flooringmastery.dto.Taxes"/>
- 
-    <bean id="products" 
-          class="com.sg.flooringmastery.dto.Products"/>      
+          class="com.sg.flooringmastery.ui.UserIOConsoleImpl"/>      
     
     <bean id="view" 
           class="com.sg.flooringmastery.ui.FlooringMasteryView">
-        <constructor-arg ref="userIO"/>
-        <constructor-arg ref="taxRate"/>
-        <constructor-arg ref="productPrice"/>
-        <constructor-arg ref="productLaborCost"/>
-        <constructor-arg ref="taxes"/>
-        <constructor-arg ref="products"/>                              
+        <constructor-arg ref="userIO"/>                              
     </bean>    
         
     <bean id="flooringMasteryDao" 

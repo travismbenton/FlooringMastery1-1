@@ -7,6 +7,7 @@ package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dto.Products;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,6 +34,7 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
     public Products addProduct(String productType, Products product) 
             throws FlooringMasteryPersistenceException {
         Products newProduct = myProducts.put(productType, product);
+        writeProducts();
         return newProduct;
     }
 
@@ -40,6 +42,7 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
     public Products removeProduct(String productType) 
             throws FlooringMasteryPersistenceException {
         Products removeProduct = myProducts.remove(productType);
+        writeProducts();
         return removeProduct;
 
     }
@@ -47,14 +50,68 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
     @Override
     public Products getProduct(String productType) 
             throws FlooringMasteryPersistenceException {
+        loadProducts();
         return myProducts.get(productType);
     }
+    
+/*    @Override
+    public Products getProductFile(String products) 
+            throws FlooringMasteryPersistenceException {
+        try { 
+        loadProductsFile(products);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return myProducts.get(products);
+    }  */
+    
 
     @Override
     public List<Products> listAllProducts() 
             throws FlooringMasteryPersistenceException {
+        loadProducts();
         return new ArrayList<>(myProducts.values());
     }
+    
+    
+    /*
+    public String loadProductsFile(String products) throws FileNotFoundException, 
+            IOException, FlooringMasteryPersistenceException {
+      Scanner scanner;
+      
+      try { 
+    
+    File ORDERS_FILE = new File("products.txt");    
+              
+      scanner = new Scanner(
+                  new BufferedReader(
+                  new FileReader(PRODUCTS_FILE)));
+      } catch (FileNotFoundException e){
+            throw new FlooringMasteryPersistenceException(
+                    "-_- Could not load product data into memory", e);
+        }
+        
+        String currentLine;        
+        String[] currentTokens;
+
+        
+        while(scanner.hasNextLine()){
+            currentLine = scanner.nextLine();
+            currentTokens = currentLine.split(DELIMITER);           
+            
+            Products currentProducts = new Products(currentTokens[0]);            
+	    currentProducts.setCostPerSquareFoot(currentTokens[1]);
+	    currentProducts.setLaborCostPerSquareFoot(currentTokens[2]);            
+            
+            myProducts.put(currentProducts.getProductType(), currentProducts);            
+        
+        }            
+        
+      scanner.close();       
+    
+      return products;
+    } */
+
     
     
     
@@ -73,13 +130,15 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
         }
         
         String currentLine;
-        String[] currentTokens;        
+        String[] currentTokens; 
+         
         
         while(scanner.hasNextLine()){
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);           
             
-            Products currentProducts = new Products(currentTokens[0]);            
+            Products currentProducts = new Products(currentTokens[0]);
+            
 	    currentProducts.setCostPerSquareFoot(currentTokens[1]);
 	    currentProducts.setLaborCostPerSquareFoot(currentTokens[2]);
             

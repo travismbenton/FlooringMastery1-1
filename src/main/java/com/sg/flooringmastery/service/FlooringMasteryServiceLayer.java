@@ -49,6 +49,8 @@ public interface FlooringMasteryServiceLayer {
     public List<Orders> getOrdersByOrderNumber(String orderNumber) 
            throws FlooringMasteryPersistenceException;
     
+    
+    
     //---------------------------------------------------------|
     
     //---------------------------------------------------------|
@@ -69,9 +71,10 @@ public interface FlooringMasteryServiceLayer {
             
         
     List<Taxes> listAllStates()
-            throws FlooringMasteryPersistenceException; 
+            throws FlooringMasteryPersistenceException;   
     
-    //---------------------------------------------------------|
+        
+     //---------------------------------------------------------|
     
     //---------------------------------------------------------|
     

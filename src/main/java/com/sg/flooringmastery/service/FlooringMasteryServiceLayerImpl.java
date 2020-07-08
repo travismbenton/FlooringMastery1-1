@@ -48,7 +48,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }
                            
         validateRequiredFields(order);
-        validateState(order);
+        //VALIDATION IN CONTROLLER -- STATE & PRODUCT TYPE
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
         dao.addOrder(order.getOrderNumber(), order);
@@ -100,23 +100,24 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     
     private void validateRequiredFields(Orders order) throws 
             FlooringMasteryDataValidationException {        
-        if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0) {                        
+        if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+            || order.getOrderDate() == null || order.getOrderDate().trim().length() == 0    ) {                        
             throw new FlooringMasteryDataValidationException (
-                    "ERROR: [Customer Name] is a required field.");                                        
+                    "ERROR: [Customer Name, Order Date] is a required field.");                                        
         }         
     }   
     
-    private void validateState(Orders order) throws 
+    /*private void validateState(Orders order) throws 
             FlooringMasteryDataValidationException {        
         if (order.getState().equalsIgnoreCase("oh") || order.getState().equalsIgnoreCase("mi") 
             || order.getState().equalsIgnoreCase("pa") || order.getState().equalsIgnoreCase("in")){           
                                                    
         } else {
             throw new FlooringMasteryDataValidationException (
-                    "INVALID STATE: [OH, MI, PA, IN] Please select from states shown"); 
+                    "INVALID STATE: [oh, mi, pa, in] Please select from states shown"); 
         }        
        
-   }
+   } */
     
     
     private void validateAreaSquareFeet(Orders order) throws 
@@ -202,7 +203,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public List<Taxes> listAllStates() 
             throws FlooringMasteryPersistenceException {
         return taxesDao.listAllStates();
-    }
+    }        
     
     //---------------------------------------------------------|
     
@@ -225,7 +226,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             throws FlooringMasteryPersistenceException {
         return productsDao.getProduct(productType);
     }
-
+    
     @Override
     public List<Products> listAllProducts() 
             throws FlooringMasteryPersistenceException {
@@ -233,7 +234,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     
-   
     
         
     

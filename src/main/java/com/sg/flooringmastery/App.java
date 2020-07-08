@@ -11,9 +11,6 @@ import com.sg.flooringmastery.dao.FlooringMasteryAuditDaoImpl;
 import com.sg.flooringmastery.dao.FlooringMasteryDao;
 import com.sg.flooringmastery.dao.FlooringMasteryDaoFileImpl;
 import com.sg.flooringmastery.dao.FlooringMasteryPersistenceException;
-import com.sg.flooringmastery.dto.ProductLaborCost;
-import com.sg.flooringmastery.dto.ProductPrice;
-import com.sg.flooringmastery.dto.TaxRates;
 import com.sg.flooringmastery.service.FloorMasteryValidateSubmitException;
 import com.sg.flooringmastery.service.FlooringMasteryDataValidationException;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
@@ -41,11 +38,7 @@ public class App {
 
         /*
         UserIO myIO = new UserIOConsoleImpl();
-        TaxRates myTaxRate = new TaxRates();
-        ProductPrice myProductPrice = new ProductPrice();
-        ProductLaborCost myProductLaborCost = new ProductLaborCost();        
-        FlooringMasteryView myView = new FlooringMasteryView(myIO, myTaxRate, 
-                                            myProductPrice, myProductLaborCost);
+        FlooringMasteryView myView = new FlooringMasteryView(myIO);
         FlooringMasteryDao myDao = new FlooringMasteryDaoFileImpl();
         FlooringMasteryAuditDao myAuditDao = new FlooringMasteryAuditDaoImpl();
         FlooringMasteryServiceLayer myService = new FlooringMasteryServiceLayerImpl(myDao, myAuditDao);

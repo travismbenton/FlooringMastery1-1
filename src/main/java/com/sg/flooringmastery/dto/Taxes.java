@@ -13,29 +13,24 @@ import java.math.BigDecimal;
  */
 public class Taxes {    
         
-    private String stateAbbreviation;
-    private String stateName;
+    private String state;
     private BigDecimal taxRate;
     
-    
-    public Taxes(String stateAbbreviation) {
-        this.stateAbbreviation = stateAbbreviation;        
+    // -- CONSTRUCTOR -- 
+    public Taxes(String state){
+        this.state=state;
+    }
+    public String toString() { 
+        return state + " " + taxRate; 
+    } 
+    // -- CONSTRUCTOR --
+
+    public String getState() {
+        return state;
     }
 
-    public String getStateAbbreviation() {
-        return stateAbbreviation;
-    }
-
-    public void setStateAbbreviation(String stateAbbreviation) {
-        this.stateAbbreviation = stateAbbreviation;
-    }
-
-    public String getStateName() {
-        return stateName;
-    }
-
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public BigDecimal getTaxRate() {
@@ -45,7 +40,6 @@ public class Taxes {
     public void setTaxRate(String taxRate) {
         this.taxRate = new BigDecimal(taxRate);
     }
-   
-    
+
     
 }

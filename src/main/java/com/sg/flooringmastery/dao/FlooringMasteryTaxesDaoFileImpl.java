@@ -33,6 +33,7 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
     public Taxes addState(String stateAbbreviation, Taxes state) 
             throws FlooringMasteryPersistenceException {
         Taxes newState = myTaxes.put(stateAbbreviation, state);
+        writeTaxes();
         return newState;
     }
 
@@ -40,18 +41,21 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
     public Taxes removeState(String stateAbbreviation) 
             throws FlooringMasteryPersistenceException {
         Taxes removeState = myTaxes.remove(stateAbbreviation);
+        writeTaxes();
         return removeState;
     }
 
     @Override
     public Taxes getState(String stateAbbreviation) 
             throws FlooringMasteryPersistenceException {
+        loadTaxes();
         return myTaxes.get(stateAbbreviation);
     }
 
     @Override
     public List<Taxes> listAllStates() 
             throws FlooringMasteryPersistenceException {
+        loadTaxes();
         return new ArrayList<>(myTaxes.values());
     }
     
@@ -75,18 +79,17 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
         }
         
         String currentLine;
-        String[] currentTokens;        
+        String[] currentTokens; 
+        
         
         while(scanner.hasNextLine()){
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);           
             
-            Taxes currentState = new Taxes(currentTokens[0]);            
-	    currentState.setStateName(currentTokens[1]);
-	    currentState.setTaxRate(currentTokens[2]);
+            Taxes currentState = new Taxes(currentTokens[0]);           
+                currentState.setTaxRate(currentTokens[1]);            
             
-            
-           myTaxes.put(currentState.getStateAbbreviation(), currentState);           
+           myTaxes.put(currentState.getState(), currentState);           
         }
         scanner.close(); 
         
@@ -109,8 +112,7 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
 	    List<Taxes> inventoryList = this.listAllStates();
 	    for (Taxes currentInventory : inventoryList) {
 	        // write the Inventory object to the file
-	        out.println(currentInventory.getStateAbbreviation() + DELIMITER
-	                + currentInventory.getStateName() + DELIMITER 
+	        out.println(currentInventory.getState() + DELIMITER
 	                + currentInventory.getTaxRate());
 	        // force PrintWriter to write line to the file
 	        out.flush();
