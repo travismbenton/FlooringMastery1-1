@@ -54,7 +54,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
         dao.addOrder(order.getOrderNumber(), order);
-        //auditDao.writeAuditEntry("New Order: "+order.getOrderNumber()+" CREATED.");        
+        auditDao.writeAuditEntry("New Order: "+order.getOrderNumber()+" CREATED.");        
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         validateAreaSquareFeet(order);
         validateSumitOrder(order);
         dao.addEditOrder(date, order.getOrderNumber(), order);
-        //auditDao.writeAuditEntry("Existing Order: "+order.getOrderNumber()+" EDITED.");
+        auditDao.writeAuditEntry("Existing Order: "+order.getOrderNumber()+" EDITED.");
     }
 
     @Override
@@ -100,7 +100,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             FlooringMasteryDataValidationException {
         validateRemoveOrder(order);
         Orders removedOrder = dao.removeOrder(date, orderNumber);
-        //auditDao.writeAuditEntry("Existing Order: "+orderNumber+" REMOVED.");
+        auditDao.writeAuditEntry("Existing Order: "+orderNumber+" REMOVED.");
         return removedOrder;
     }
     

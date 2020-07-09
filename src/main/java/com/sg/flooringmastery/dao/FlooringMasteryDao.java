@@ -36,6 +36,9 @@ public interface FlooringMasteryDao {
     List<Orders> getAllOrders()
             throws FlooringMasteryPersistenceException;
     
+    List<Orders> getAllOrders2(String date)
+            throws FlooringMasteryPersistenceException;
+    
     Orders getTXTOrder (String date)
             throws FlooringMasteryPersistenceException;
     

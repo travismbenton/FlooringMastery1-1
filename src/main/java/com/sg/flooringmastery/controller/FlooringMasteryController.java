@@ -52,7 +52,7 @@ public class FlooringMasteryController {
                     displayOrders();
                     break;
                 case 2:
-                    tcreateOrder();
+                    createOrder();
                     break;
                 case 3:
                     editOrder();
@@ -239,38 +239,9 @@ public class FlooringMasteryController {
     
     //---------------------------------------------------------|      
         
-    /*/ -- ADD ORDER  SECTION --    
-    private void createOrder() throws FlooringMasteryPersistenceException, 
-                                   FlooringMasteryDuplicateIdException, 
-                                   FloorMasteryValidateSubmitException,
-                                   FlooringMasteryDataValidationException {        
-        List<Products> productList; 
-        
-        view.displayCreateOrderBanner();
-        boolean hasErrors = false;
-        do {    
-            productList = service.listAllProducts(); 
-                Orders newOrder = view.getNewOrderInfo(productList, taxes, products);                
-            try {
-                view.displayVerifyOrderSummary(newOrder);
-                service.createOrder(newOrder);                
-                view.displayCreateOrderSuccessBanner();  
-                hasErrors = false;
-            } catch (FlooringMasteryDataValidationException | 
-                     FlooringMasteryDuplicateIdException | 
-                     FlooringMasteryPersistenceException e) {                      
-                hasErrors = true;
-                view.displayErrorMessage(e.getMessage());
-            } catch (FloorMasteryValidateSubmitException e) {
-                hasErrors = true;
-                run();
-            }
-                
-        } while(hasErrors);    
-    }   */      
-    // -- "END" ADD ORDER  SECTION --
+    // -- ADD ORDER  SECTION --
     
-    private void tcreateOrder() throws FlooringMasteryPersistenceException, 
+    private void createOrder() throws FlooringMasteryPersistenceException, 
                                    FlooringMasteryDuplicateIdException, 
                                    FloorMasteryValidateSubmitException,
                                    FlooringMasteryDataValidationException {       
@@ -347,7 +318,7 @@ public class FlooringMasteryController {
         do {
                 String date = view.getEditOrderDateChoice();
                 String existingOrderNumber = view.getEditOrderNumberChoice();
-                Orders order = service.getEditTXTOrder2(date, existingOrderNumber);                
+                Orders order = service.getEditTXTOrder(date, existingOrderNumber);                
                 if (order == null){
                     System.out.println("");
                     System.out.println("No such \"Order Number\" exist.");

@@ -44,7 +44,7 @@ public interface FlooringMasteryServiceLayer {
     public Orders getOrder(String orderNumber) throws
             FlooringMasteryPersistenceException;
  
-    public Orders removeOrder(String date, String orderNumber, Orders order) throws
+    public Orders removeOrder(String date, String OrderNumber, Orders order) throws
             FlooringMasteryPersistenceException,
             FlooringMasteryDataValidationException,
             FloorMasteryValidateSubmitException;
