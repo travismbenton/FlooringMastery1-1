@@ -314,7 +314,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
             
             Orders currentOrder = new Orders(currentTokens[0]);
             
-            currentOrder.setOrderDate(currentTokens[1]);
+            currentOrder.setOrderDate(LocalDate.parse(currentTokens[1]));
             System.out.println(currentTokens[0]+" | "+currentTokens[1]);
             currentOrder.setCustomerName(currentTokens[2]);
             System.out.println(currentTokens[2]);
@@ -405,7 +405,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
                         
             Orders currentOrder = new Orders(currentTokens[0]);             
             
-            currentOrder.setOrderDate(currentTokens[1]);
+            currentOrder.setOrderDate(LocalDate.parse(currentTokens[1]));
             currentOrder.setCustomerName(currentTokens[2]);
 	    currentOrder.setState(currentTokens[3]);
 	    currentOrder.setTaxRate(currentTokens[4]);
@@ -511,8 +511,8 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
             
             
             System.out.println("Assigned Order Number: "+currentTokens[0]);
-            currentOrder.setOrderDate(currentTokens[1]);
-            //System.out.println("Order Fulfillment Date: "+currentTokens[1]);
+            
+            currentOrder.setOrderDate(LocalDate.parse(currentTokens[1]));            
             currentOrder.setCustomerName(currentTokens[2]);
 	    currentOrder.setState(currentTokens[3]);
 	    currentOrder.setTaxRate(currentTokens[4]);

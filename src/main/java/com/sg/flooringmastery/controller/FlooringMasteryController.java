@@ -14,6 +14,7 @@ import com.sg.flooringmastery.service.FlooringMasteryDataValidationException;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
 import com.sg.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.sg.flooringmastery.ui.FlooringMasteryView;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -277,7 +278,7 @@ public class FlooringMasteryController {
         view.displayCreateOrderBanner();
         
         boolean hasErrors = false;
-        do {          
+        do {
             
             String state="";            
             do{
@@ -297,8 +298,7 @@ public class FlooringMasteryController {
             productType = view.getProductTypeChoice().toLowerCase();
             }while(!productType.equalsIgnoreCase("wood")&&!productType.equalsIgnoreCase("tile")&&
                     !productType.equalsIgnoreCase("carpet")&&!productType.equalsIgnoreCase("laminate"));
-            Products products = service.getProduct(productType); System.out.println("");  
-            
+            Products products = service.getProduct(productType); System.out.println("");           
                
            
             
@@ -307,12 +307,15 @@ public class FlooringMasteryController {
            
             
                 try {
-                //service.validateState(taxes);    
+                   
                 view.displayVerifyOrderSummary(newOrder);
                 service.createOrder(newOrder);
                     
                 view.displayCreateOrderSuccessBanner();  
                 hasErrors = false;
+            } catch(DateTimeParseException e){           
+                view.displayDateErrorMessage(e.getMessage());
+                hasErrors = true; 
             } catch (FlooringMasteryDataValidationException | 
                      FlooringMasteryDuplicateIdException | 
                      FlooringMasteryPersistenceException e) {                      

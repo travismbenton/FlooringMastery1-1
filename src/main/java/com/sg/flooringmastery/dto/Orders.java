@@ -5,6 +5,8 @@
  */
 package com.sg.flooringmastery.dto;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author travi
@@ -15,7 +17,7 @@ public class Orders {
     public Products products;   
     
     private String orderNumber;
-    private String orderDate;
+    private LocalDate orderDate;
     private String customerName;
     private String state;
     private String taxRate;
@@ -42,11 +44,11 @@ public class Orders {
         this.orderNumber = orderNumber;
     }
 
-    public String getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
-    
-    public void setOrderDate(String orderDate) {
+
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
     

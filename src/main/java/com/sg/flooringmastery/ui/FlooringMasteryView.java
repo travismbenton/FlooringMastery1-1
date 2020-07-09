@@ -11,6 +11,9 @@ import com.sg.flooringmastery.dto.Taxes;
 import com.sg.flooringmastery.service.FlooringMasteryDataValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,7 +89,12 @@ public class FlooringMasteryView {
     public void displayErrorMessage(String errorMsg) {
 	io.print("=== ERROR ===");
 	io.print(errorMsg);
-    }    
+    }  
+    public void displayDateErrorMessage(String errorMsg) {
+	    io.print("=== Date Format Error ===");
+            io.print("Please Use Date Format: YYYY-MM-DD");
+	    //io.print(errorMsg);
+    }
     // -- "END" ERROR MESSAGE SECTION --
     
     //---------------------------------------------------------|
@@ -128,10 +136,10 @@ public class FlooringMasteryView {
     
     public Orders getNewOrderInfo(List<Products> productList, Taxes taxes, Products products){           
         
-        String area = io.readString("Enter Projected Area.(100ft Min) "); 
-        String orderDate = io.readString("Please enter Order Date. Formmat \"MMDDYYYY\" ");
-        String customerName = io.readString("Enter Customer Name. ");       
-        String orderNumber = io.readString("\"Order Number - System Generated\". Please press enter. ");
+        String area = io.readString("Enter Projected Area.(100ft Min) ");io.print("");
+        String orderDateStub = io.readString("Please enter Order Fulfillment Date. Formmat \"MM-DD-YYYY\" ");io.print("");
+        String customerName = io.readString("Enter Customer Name. ");io.print("");       
+        String orderNumber = io.readString("\"Order Number - System Generated\". Please press enter. ");io.print("");
 
         //displayFindState(taxes);           
         //displayFindProduct(products);
@@ -140,7 +148,12 @@ public class FlooringMasteryView {
         Orders currentOrder = new Orders(orderNumber);// -- OrderNumber of the "New Order"        
         // -- CREATING AN OBJECT --
         
+        try {
+            
+        LocalDate orderDate;
+        orderDate = LocalDate.parse(orderDateStub, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
         currentOrder.setOrderDate(orderDate);
+        
         currentOrder.setCustomerName(customerName);
         currentOrder.setState(taxes.getState());
         
@@ -148,7 +161,10 @@ public class FlooringMasteryView {
         currentOrder.setTaxRate(convertTaxRate);  //Taxes
         
         currentOrder.setProductType(products.getProductType());  //Products
-        currentOrder.setArea(area); 
+        currentOrder.setArea(area);
+        
+        
+        
         String convertCPSF = products.getCostPerSquareFoot().toString();
         currentOrder.setCostPerSquareFoot(convertCPSF);  //Products
         String convertLCPSF = products.getLaborCostPerSquareFoot().toString();
@@ -189,7 +205,9 @@ public class FlooringMasteryView {
         total = decimalTotal.toString(); 
         currentOrder.setTotal(total);        
         
-       
+       } catch(DateTimeParseException e){           
+                displayDateErrorMessage(e.getMessage());
+       }
        
         return currentOrder;         
                
@@ -265,7 +283,7 @@ public class FlooringMasteryView {
 	    io.readString("Press enter to continue.");
             
     }
-    
+    /*
     public Orders editExistingOrderInfo(Orders order, List<Products> productList, Taxes taxes, Products products){                
         
         String area = io.readString("Enter Projected Area. "+order.getArea()+"\n"+"or press enter."); 
@@ -273,9 +291,9 @@ public class FlooringMasteryView {
             order.setArea(order.getArea());
         }io.print("");
         
-        String orderDate = io.readString("Enter Order Fullfillment Date. "+order.getOrderDate()+"\n"+
+        String orderDateStub = io.readString("Enter Order Fullfillment Date. "+order.getOrderDate()+"\n"+
                 "or press enter.");
-        if(orderDate.trim().length() == 0){
+        if(orderDateStub.trim().length() == 0){
             order.setOrderDate(order.getOrderDate());
         }io.print("");
         
@@ -352,31 +370,36 @@ public class FlooringMasteryView {
        
         return currentOrder;         
                
-    }   
+    }  */ 
     
-    public Orders editExistingOrderInfo22(Orders order, List<Products> productList, Taxes taxes, Products products){                
+    public Orders editExistingOrderInfo22(Orders order, List<Products> productList, Taxes taxes, Products products){ 
         
-        String area = io.readString("Enter Projected Area. "+order.getArea()+"\n"+"or press enter."); 
-        if(area.trim().length() == 0){
-            area = order.getArea(); }io.print("");
-        
-        
-        String orderDate = io.readString("Enter Order Fullfillment Date. "+order.getOrderDate()+"\n"+
-                "or press enter.");
-        if(orderDate.trim().length() == 0){
-            orderDate = order.getOrderDate(); }io.print("");
-        
+        boolean hasOtherChars=true;
+        String area="";
+        do {
+        area = io.readString("Enter Projected Area. "+order.getArea()+"\n"+"or press enter."); 
+        int myArea = area.length(); 
+            for (int i = 0; i < myArea; i++) {
+            if(Character.isDigit(area.charAt(i)) == false){
+                hasOtherChars=true;  } else {
+                hasOtherChars=false; }
+            }
+            if(area.trim().length() == 0){
+            area = order.getArea(); 
+            hasOtherChars=false; }  
+        } while(hasOtherChars);io.print("");         
+              
         
         String customerName = io.readString("Enter Customer Name. "+order.getCustomerName()+"\n"+
                 "or press enter.");
         if(customerName.trim().length() == 0){
             customerName = order.getCustomerName(); }io.print("");
+            
+            
+        LocalDate orderDate = order.getOrderDate(); io.print("");    
                 
         
-        String orderNumber = io.readString("Editing Order Number: "+order.getOrderNumber()+"\n"+
-                "Please press enter.");
-        if(orderNumber.trim().length() == 0){
-            orderNumber = order.getOrderNumber(); }io.print("");
+        String orderNumber = order.getOrderNumber(); io.print("");
             
         
         //displayFindState(taxes);           
@@ -387,8 +410,7 @@ public class FlooringMasteryView {
         // -- CREATING AN OBJECT --
         
                     
-        currentOrder.setOrderDate(orderDate);
-               
+        currentOrder.setOrderDate(orderDate);               
                
         currentOrder.setCustomerName(customerName);       
         
@@ -784,8 +806,21 @@ public class FlooringMasteryView {
        
     public Orders testGetNewOrderInfo(List<Products> productList, Taxes taxes, Products products){           
         
-        String area = io.readString("Enter Projected Area.(100ft Min) ");io.print("");
-        String orderDate = io.readString("Please enter Order Fulfillment Date. Formmat \"MMDDYYYY\" ");io.print("");
+        boolean hasOtherChars=true;
+        String area="";
+        do {
+        area = io.readString("Enter Projected Area.(100ft Min) "); 
+        int myArea = area.length(); 
+        for (int i = 0; i < myArea; i++) {
+            if(Character.isDigit(area.charAt(i)) == false){
+                hasOtherChars=true; } else {
+                hasOtherChars=false; }
+            }
+        } while(hasOtherChars);io.print("");    
+        
+        
+        String orderDateStub = io.readString("Please enter \"Future\" Order Fulfillment Date."+"\n"
+                + " Formmat \"YYYY-MM-DD\" ");io.print("");
         String customerName = io.readString("Enter Customer Name. ");io.print("");       
         String orderNumber = io.readString("\"Order Number - System Generated\". Please press enter. ");io.print("");
 
@@ -796,7 +831,16 @@ public class FlooringMasteryView {
         Orders currentOrder = new Orders(orderNumber);// -- OrderNumber of the "New Order"        
         // -- CREATING AN OBJECT --
         
+        LocalDate orderDate;
+        try {            
+        
+        orderDate = LocalDate.parse(orderDateStub, DateTimeFormatter.ISO_DATE);
         currentOrder.setOrderDate(orderDate);
+        
+        } catch(DateTimeParseException e){           
+                displayDateErrorMessage(e.getMessage());
+        }
+        
         currentOrder.setCustomerName(customerName);
         currentOrder.setState(taxes.getState());
         
@@ -804,7 +848,10 @@ public class FlooringMasteryView {
         currentOrder.setTaxRate(convertTaxRate);  //Taxes
         
         currentOrder.setProductType(products.getProductType());  //Products
-        currentOrder.setArea(area); 
+        currentOrder.setArea(area);
+        
+        
+        
         String convertCPSF = products.getCostPerSquareFoot().toString();
         currentOrder.setCostPerSquareFoot(convertCPSF);  //Products
         String convertLCPSF = products.getLaborCostPerSquareFoot().toString();
@@ -845,7 +892,7 @@ public class FlooringMasteryView {
         total = decimalTotal.toString(); 
         currentOrder.setTotal(total);        
         
-       
+      
        
         return currentOrder;         
                

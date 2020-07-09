@@ -13,6 +13,7 @@ import com.sg.flooringmastery.dao.FlooringMasteryTaxesDao;
 import com.sg.flooringmastery.dto.Orders;
 import com.sg.flooringmastery.dto.Products;
 import com.sg.flooringmastery.dto.Taxes;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }
                            
         validateRequiredFields(order);
+        validateDate(order);
         //VALIDATION IN CONTROLLER -- STATE & PRODUCT TYPE
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
@@ -59,7 +61,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public void editOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
                                                             FloorMasteryValidateSubmitException, 
                                                             FlooringMasteryDataValidationException,
-                                                            FlooringMasteryDuplicateIdException {                                     
+                                                            FlooringMasteryDuplicateIdException {                                 
         validateAreaSquareFeet(order);
         validateSumitOrder(order);
         dao.addEditOrder(date, order.getOrderNumber(), order);
@@ -106,11 +108,26 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     private void validateRequiredFields(Orders order) throws 
             FlooringMasteryDataValidationException {        
         if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-            || order.getOrderDate() == null || order.getOrderDate().trim().length() == 0    ) {                        
+            || order.getOrderDate() == null ) {                        
             throw new FlooringMasteryDataValidationException (
-                    "ERROR: [Customer Name, Order Date] is a required field.");                                        
-        }         
+                    "ERROR: [Customer Name, Order Date] required field."+"\n"
+                            + "Date Format: YYYY-MM-DD");                                        
+        }          
     }   
+    
+    private void validateDate(Orders order) throws 
+            FlooringMasteryDataValidationException { 
+        LocalDate date1 = LocalDate.now();
+        Integer yesDate = order.getOrderDate().compareTo(date1);
+        System.out.println("Date Stuff: "+yesDate);
+        if (yesDate <= 0 ) {                        
+            throw new FlooringMasteryDataValidationException (
+                    "ERROR: [Order Date] has to be greater than today's date.");                                        
+        }         
+    }
+    
+    
+
     
     /*private void validateState(Orders order) throws 
             FlooringMasteryDataValidationException {        
