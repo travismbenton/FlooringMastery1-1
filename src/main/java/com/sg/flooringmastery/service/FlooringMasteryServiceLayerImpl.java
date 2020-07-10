@@ -39,7 +39,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     // -- "END" Constructor --
 
     @Override
-    public void createOrder(Orders order) throws FlooringMasteryPersistenceException,
+    public void createOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
                                                  FloorMasteryValidateSubmitException,
                                                  FlooringMasteryDataValidationException,
                                                  FlooringMasteryDuplicateIdException {
@@ -53,7 +53,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         //VALIDATION IN CONTROLLER -- STATE & PRODUCT TYPE
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
-        dao.addOrder(order.getOrderNumber(), order);
+        dao.addOrder(date, order.getOrderNumber(), order);
         auditDao.writeAuditEntry("New Order: "+order.getOrderNumber()+" CREATED.");        
     }
 

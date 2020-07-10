@@ -26,7 +26,7 @@ public interface FlooringMasteryDao {
     public String generateNextOrderNumber(String orderNumber) 
             throws FlooringMasteryPersistenceException;
     
-    Orders addOrder(String orderNumber, Orders order)
+    Orders addOrder(String date, String orderNumber, Orders order)
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;
     
     Orders addEditOrder(String date, String orderNumber, Orders order)

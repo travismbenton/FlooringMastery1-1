@@ -155,11 +155,12 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     
     
     @Override
-    public Orders addOrder(String orderNumber, Orders order) 
+    public Orders addOrder(String date, String orderNumber, Orders order) 
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException {
         Orders newOrder = myOrders.put(orderNumber, order);    
         
         try {
+            writeDateEditFile(date);
             writeOrder();
         } catch (IOException e) {
             e.printStackTrace();

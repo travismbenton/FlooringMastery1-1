@@ -52,7 +52,7 @@ public class FlooringMasteryController {
                     displayOrders();
                     break;
                 case 2:
-                    createOrder();
+                    createOrder2();
                     break;
                 case 3:
                     editOrder();
@@ -240,7 +240,7 @@ public class FlooringMasteryController {
     //---------------------------------------------------------|      
         
     // -- ADD ORDER  SECTION --
-    
+    /*
     private void createOrder() throws FlooringMasteryPersistenceException, 
                                    FlooringMasteryDuplicateIdException, 
                                    FloorMasteryValidateSubmitException,
@@ -297,13 +297,79 @@ public class FlooringMasteryController {
                 run();
             }
           //} // -- FOR LOOP --    
-        } while(hasErrors); 
+        } while(hasErrors);         
         
+    }    */    
+    // -- "END" ADD ORDER  SECTION --
+    
+    //---------------------------------------------------------| 
+    
+        // -- ADD ORDER  SECTION --
+    
+    private void createOrder2() throws FlooringMasteryPersistenceException, 
+                                   FlooringMasteryDuplicateIdException, 
+                                   FloorMasteryValidateSubmitException,
+                                   FlooringMasteryDataValidationException {       
+        
+        view.displayCreateOrderBanner();
+        
+        boolean hasErrors = false;
+        do {
+            String date = view.getOrderDateChoice();
+            Orders order = service.getTXTOrder(date);            
+        
+            String state="";            
+            do{
+            state= view.getStateChoice().toLowerCase();
+            } while(!state.equalsIgnoreCase("oh")&&!state.equalsIgnoreCase("mi")&&
+                    !state.equalsIgnoreCase("pa")&&!state.equalsIgnoreCase("in"));
+            Taxes taxes = service.getState(state); System.out.println("");                  
+            
+        
+            System.out.println("Item  | Cost  | Labor Cost");
+            List<Products> productList;
+            productList = service.listAllProducts();
+            view.displayProductList(productList);System.out.println("");        
+        
+            String productType="";
+            do{
+            productType = view.getProductTypeChoice().toLowerCase();
+            }while(!productType.equalsIgnoreCase("wood")&&!productType.equalsIgnoreCase("tile")&&
+                    !productType.equalsIgnoreCase("carpet")&&!productType.equalsIgnoreCase("laminate"));
+            Products products = service.getProduct(productType); System.out.println("");           
+               
+           
+            
+                Orders newOrder = view.testGetNewOrderInfo(productList, taxes, products);
+                
+           
+            
+                try {
+                   
+                view.displayVerifyOrderSummary(newOrder);
+                service.createOrder(date, newOrder);
+                    
+                view.displayCreateOrderSuccessBanner();  
+                hasErrors = false;
+            } catch(DateTimeParseException e){           
+                view.displayDateErrorMessage(e.getMessage());
+                hasErrors = true; 
+            } catch (FlooringMasteryDataValidationException | 
+                     FlooringMasteryDuplicateIdException | 
+                     FlooringMasteryPersistenceException e) {                      
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+            } catch (FloorMasteryValidateSubmitException e) {
+                hasErrors = true;
+                run();
+            }
+          //} // -- FOR LOOP --    
+        } while(hasErrors);         
         
     }        
     // -- "END" ADD ORDER  SECTION --
     
-    //---------------------------------------------------------|    
+    //---------------------------------------------------------|
         
     // -- EDIT ORDER  SECTION --    
     private void editOrder() throws FlooringMasteryPersistenceException,                                     
