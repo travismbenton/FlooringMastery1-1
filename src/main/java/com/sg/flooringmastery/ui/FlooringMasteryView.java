@@ -38,13 +38,12 @@ public class FlooringMasteryView {
         io.print("1. Display Orders ");
         io.print("2. Add an Order ");
         io.print("3. Edit an Order ");
-        io.print("4. Remove an Order ");        
-        io.print("5. List Today's Orders ");        
-        io.print("6. States *Menu ");
-        io.print("7. Products *Menu ");
-        io.print("8. Quit");
+        io.print("4. Remove an Order ");                
+        io.print("5. States *Menu ");
+        io.print("6. Products *Menu ");
+        io.print("7. Quit");
             
-        return io.readInt("Please select from the menu above. ", 1, 8);
+        return io.readInt("Please select from the menu above. ", 1, 7);
     }   
     
     //---------------------------------------------------------|
@@ -82,7 +81,7 @@ public class FlooringMasteryView {
     }   
     
     //---------------------------------------------------------|
-    
+    //---------------------------------------------------------|
     
     
     // -- ERROR MESSAGE SECTION --

@@ -42,32 +42,28 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     public String theKeys(LocalDate ld, String orderNumber) throws FlooringMasteryPersistenceException{
         
         if (myOrders.containsKey("1")){
-            System.out.println("True: Contains at least 1 Order");    
+            //System.out.println("True: Contains at least 1 Order");    
         Set<String> keys = myOrders.keySet();    
         for(String currentKey : keys){            
-            System.out.println("Current List of Keys: "+currentKey);
+            //System.out.println("Current List of Keys: "+currentKey);
             Integer newMaxNumber = Integer.valueOf(currentKey);
             newMaxNumber += 1;
-            System.out.println("New List of Keys Value: "+newMaxNumber);           
+            //System.out.println("New List of Keys Value: "+newMaxNumber);           
             orderNumber = String.valueOf(newMaxNumber);
-            System.out.println("Next OrderNumber Assigned: "+orderNumber);
+            //System.out.println("Next OrderNumber Assigned: "+orderNumber);
            
         try {        
             loadOrder(ld);
         } catch (IOException e) {
             throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        }
+	                "Could not save order data.", e); }        
         try {
             writeOrder(ld);
         } catch (IOException e) {
             throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        }       
+	                "Could not save order data.", e); }               
         }
-        return orderNumber;
-        
-    } else {
+        return orderNumber;  } else {    
         
             System.out.println("False: Does not contain. at least 1 Order");
         orderNumber = "0";
@@ -83,19 +79,14 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
             loadOrder(ld);
         } catch (IOException e) {
             throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        } 
+	                "Could not save order data.", e); }         
         try {
            writeOrder(ld);
         } catch (IOException e) {
             throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        } 
+	                "Could not save order data.", e); }         
         return orderNumber;    
-        }    
-            
-            
-            
+        }             
     }        
     
     
@@ -131,7 +122,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
     }  
     
     
-    @Override
+    @Override  // -- USED FOR -- writeOrder(LocalDate ld) --
     public List<Orders> getAllOrders(LocalDate ld) 
             throws FlooringMasteryPersistenceException {
         
@@ -143,7 +134,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         }      
         return new ArrayList<>(myOrders.values());        
     }
-    
+    // -- USED FOR -- writeDateEditFile(String date) --
     public List<Orders> getAllOrders2(String date) 
             throws FlooringMasteryPersistenceException {
         
@@ -155,6 +146,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         }      
         return new ArrayList<>(myOrders.values());        
     }
+    
     
    @Override  // -- USED FOR CREATE ORDER
     public Orders getTXTOrder(String date) 
@@ -168,7 +160,8 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         } 
         
         return myOrders.get(date);        
-    } 
+    }
+    
     
     @Override // -- USED FOR EDIT & REMOVE --
     public Orders getEditTXTOrder(String date, String orderNumber) 
@@ -213,80 +206,6 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         return removedOrder;        
     }
     
-    
-    @Override  // -- NOT IN USE --
-    public String generateNextOrderNumber(String orderNumber) 
-            throws FlooringMasteryPersistenceException{
-        orderNumber = "0";
-        Integer newOrderNumber = 0;
-        
-            newOrderNumber = Integer.valueOf(orderNumber);            
-            newOrderNumber = myOrders.size() + 1;             
-            orderNumber = String.valueOf(newOrderNumber);
-            
-        System.out.println("DAO - Assigned OrderNumber: "+orderNumber);
-        /*
-        try {        
-            loadOrder();
-        } catch (IOException e) {
-            throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        }
-        try {
-            writeOrder();
-        } catch (IOException e) {
-            throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        } */
-        return orderNumber;
-        //String orderNumber = "";                  
-   }
-    
-    
-    @Override  // NOT IN USE
-    public String theTestKeys(String orderNumber) throws FlooringMasteryPersistenceException{
-        
-        Set<String> keys = myOrders.keySet();    
-        for(String currentKey : keys){            
-            System.out.println("Current List of Keys: "+currentKey);
-            Integer newMaxNumber = Integer.valueOf(currentKey);
-            newMaxNumber += 1;
-            System.out.println("New List of Keys Value: "+newMaxNumber);           
-            orderNumber = String.valueOf(newMaxNumber);
-            System.out.println("Next OrderNumber Assigned: "+orderNumber);
-        /*     
-        try {        
-            //loadOrder();
-        } catch (IOException e) {
-            throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        }
-        try {
-            //writeOrder();
-        } catch (IOException e) {
-            throw new FlooringMasteryPersistenceException(
-	                "Could not save order data.", e);
-        }  */   
-        } 
-        return orderNumber;
-    }
-    
-    /*
-    @Override  // NOT IN USE
-    public List<Orders> getAssignedOrderNumbers(String orderNumber)
-            throws FlooringMasteryPersistenceException {
-        
-    try {        
-            loadOrder();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
-        return myOrders.values()
-                       .stream()
-                       .filter(o -> o.getOrderNumber().equals(orderNumber))
-                       .collect(Collectors.toList());
-    }  */    
-   
     
    // -- LOAD -- displayOrders() --
     private String loadDateFile(String date) throws FileNotFoundException, 
@@ -349,8 +268,6 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
       }
       return date;
     }
-    
-   
     
     
     // -- LOAD -- createOrder() & listAllOrderNumbers() --
@@ -423,8 +340,6 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         //myOrders.clear();
     }  // -- loadRoster() --
         
-    
-
 
     // -- WRITE -- createOrder() --
     private void writeOrder(LocalDate ld) throws FlooringMasteryPersistenceException, 
@@ -491,12 +406,10 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
         
         while(scanner.hasNextLine()){
             currentLine = scanner.nextLine();
-            //System.out.println(currentLine);
-            currentTokens = currentLine.split(DELIMITER);             
             
-           //Taxes taxes; Products products; 
-           Orders currentOrder = new Orders(currentTokens[0]);  
+            currentTokens = currentLine.split(DELIMITER);              
             
+           Orders currentOrder = new Orders(currentTokens[0]);            
             
             System.out.println("Assigned Order Number: "+currentTokens[0]);
             
@@ -566,8 +479,7 @@ public class FlooringMasteryDaoFileImpl implements FlooringMasteryDao {
                 
 	    out.flush();
                 
-	    } 
-            
+	    }             
 	    // Clean up
             
 	    out.close();

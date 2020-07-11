@@ -19,13 +19,7 @@ import java.util.List;
 public interface FlooringMasteryDao {
     
     public String theKeys(LocalDate ld, String orderNumber)
-            throws FlooringMasteryPersistenceException;
-    
-    public String theTestKeys(String orderNumber)
-            throws FlooringMasteryPersistenceException;
-    
-    public String generateNextOrderNumber(String orderNumber) 
-            throws FlooringMasteryPersistenceException;
+            throws FlooringMasteryPersistenceException; 
     
     Orders addOrder(LocalDate ld, String orderNumber, Orders order)
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;

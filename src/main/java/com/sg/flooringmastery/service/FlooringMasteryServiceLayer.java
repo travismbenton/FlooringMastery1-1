@@ -47,10 +47,6 @@ public interface FlooringMasteryServiceLayer {
             FlooringMasteryDataValidationException,
             FloorMasteryValidateSubmitException;
     
-//        public List<Orders> getOrdersByOrderNumber(String orderNumber) 
-//           throws FlooringMasteryPersistenceException;
-    
-    
     
     //---------------------------------------------------------|
     

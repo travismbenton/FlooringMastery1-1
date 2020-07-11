@@ -37,6 +37,11 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         this.productsDao = productsDao;
     }
     // -- "END" Constructor --
+    
+    //---------------------------------------------------------|
+    
+    //---------------------------------------------------------|
+
 
     LocalDate ld;
     @Override
@@ -130,19 +135,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }  
     
     
-    /*private void validateState(Orders order) throws 
-            FlooringMasteryDataValidationException {        
-        if (order.getState().equalsIgnoreCase("oh") || order.getState().equalsIgnoreCase("mi") 
-            || order.getState().equalsIgnoreCase("pa") || order.getState().equalsIgnoreCase("in")){           
-                                                   
-        } else {
-            throw new FlooringMasteryDataValidationException (
-                    "INVALID STATE: [oh, mi, pa, in] Please select from states shown"); 
-        }        
-       
-   } */
-    
-    
     private void validateAreaSquareFeet(Orders order) throws 
             FlooringMasteryDataValidationException {            
         
@@ -180,25 +172,6 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }         
     }
     
-    /*
-    // -- NOT IN USE --
-    public void systemGeneratedOrderNumber(Orders order) 
-            throws FlooringMasteryPersistenceException{
-        System.out.println();
-        String orderNumber = order.getOrderNumber();
-        if(dao.getOrder(order.getOrderNumber()) == null) {              
-           dao.generateNextOrderNumber(orderNumber);   
-           order.setOrderNumber(orderNumber);
-            System.out.println("Service Generated: "+orderNumber);
-        }   
-    }   
-            
-    // -- NOT IN USE --               
-   public List<Orders> getOrdersByOrderNumber(String orderNumber) 
-           throws FlooringMasteryPersistenceException {
-        return dao.getAssignedOrderNumbers(orderNumber);
-    } */
-   
     //---------------------------------------------------------|
     
     //---------------------------------------------------------|

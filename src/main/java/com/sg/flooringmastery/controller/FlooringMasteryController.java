@@ -60,20 +60,17 @@ public class FlooringMasteryController {
                     break;
                 case 4:
                     removeOrder();
-                    break;                
+                    break;                 
                 case 5:
-                    //listAllOrders();
-                    break; 
-                case 6:
                     taxes();
                     break;                
-                case 7:
+                case 6:
                     products();
                     break;    
-                case 8:
+                case 7:
                     keepGoing = false;
                     break;
-                case 9:
+                case 8:
                     unknownCommand();
                     break;
      
@@ -253,9 +250,6 @@ public class FlooringMasteryController {
         LocalDate ld = null; 
         
         do {
-            
-            //String date = view.getOrderDateChoice();
-            //Orders order = service.getTXTOrder(date);            
         
             String state="";            
             do{
@@ -422,25 +416,6 @@ public class FlooringMasteryController {
         view.displayListAllOrderNumbers(orderList);         
     }           
     // -- "END" LIST ALL ORDERS  SECTION --
-    
-    //---------------------------------------------------------|
-    
-    /*/ -- SEARCH BY ORDER NUMBERS  SECTION --   NOT IN USE*** 
-    private void searchByOrderNumber()throws FlooringMasteryPersistenceException, 
-                                             FlooringMasteryDuplicateIdException, 
-                                             FloorMasteryValidateSubmitException, 
-                                             FlooringMasteryDataValidationException {
-        view.displayFindOrderNumberBanner();
-        String selectOrderNumber = view.selectOrderNumberChoice();
-        List<Orders> orderNumber = service.getOrdersByOrderNumber(selectOrderNumber);
-        orderNumber.stream()
-                .forEach(m -> System.out.println("Order Number: "+m.getOrderNumber()
-                                                    +":: Customer Name: "+m.getCustomerName()
-                                                    +":: State: "+m.getState()));
-        System.out.println("=== END ORDER ===");
-        run();
-    }
-    */ // -- "END" SEARCH BY ORDER NUMBERS  SECTION --
     
     //---------------------------------------------------------|
     
