@@ -9,6 +9,7 @@ import com.sg.flooringmastery.dto.Orders;
 import com.sg.flooringmastery.dto.Products;
 import com.sg.flooringmastery.dto.Taxes;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public interface FlooringMasteryDao {
     
-    public String theKeys(String orderNumber)
+    public String theKeys(LocalDate ld, String orderNumber)
             throws FlooringMasteryPersistenceException;
     
     public String theTestKeys(String orderNumber)
@@ -26,14 +27,14 @@ public interface FlooringMasteryDao {
     public String generateNextOrderNumber(String orderNumber) 
             throws FlooringMasteryPersistenceException;
     
-    Orders addOrder(String date, String orderNumber, Orders order)
+    Orders addOrder(LocalDate ld, String orderNumber, Orders order)
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;
     
     Orders addEditOrder(String date, String orderNumber, Orders order)
             throws FlooringMasteryPersistenceException, FlooringMasteryDuplicateIdException;
 
     
-    List<Orders> getAllOrders()
+    List<Orders> getAllOrders(LocalDate ld)
             throws FlooringMasteryPersistenceException;
     
     List<Orders> getAllOrders2(String date)
@@ -45,10 +46,7 @@ public interface FlooringMasteryDao {
     Orders getEditTXTOrder (String date, String orderNumber)
             throws FlooringMasteryPersistenceException;
     
-    Orders getEditTXTOrder2 (String date, String orderNumber)
-            throws FlooringMasteryPersistenceException;
-    
-    Orders getOrder(String orderNumber)
+    Orders getOrder(LocalDate ld, String orderNumber)
             throws FlooringMasteryPersistenceException;       
     
     Orders removeOrder(String date, String orderNumber)
@@ -56,8 +54,8 @@ public interface FlooringMasteryDao {
   
     // -- Lambdas, Streams, and Aggregate Operations Section --
 
-    public List<Orders> getAssignedOrderNumbers (String orderNumber)
-            throws FlooringMasteryPersistenceException;
+   // public List<Orders> getAssignedOrderNumbers (String orderNumber)
+   //         throws FlooringMasteryPersistenceException;
     
         
     

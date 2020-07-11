@@ -14,6 +14,7 @@ import com.sg.flooringmastery.service.FlooringMasteryDataValidationException;
 import com.sg.flooringmastery.service.FlooringMasteryDuplicateIdException;
 import com.sg.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.sg.flooringmastery.ui.FlooringMasteryView;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class FlooringMasteryController {
                     displayOrders();
                     break;
                 case 2:
-                    createOrder2();
+                    createOrder();
                     break;
                 case 3:
                     editOrder();
@@ -61,7 +62,7 @@ public class FlooringMasteryController {
                     removeOrder();
                     break;                
                 case 5:
-                    listAllOrders();
+                    //listAllOrders();
                     break; 
                 case 6:
                     taxes();
@@ -205,7 +206,7 @@ public class FlooringMasteryController {
             
     } // -- "END" RUN --
     
-     //---------------------------------------------------------|
+    //---------------------------------------------------------|
     
     // -- Menu Section --    
     public int getMenuSelection(){
@@ -237,10 +238,10 @@ public class FlooringMasteryController {
     }           
     // -- "END" DISPLAY ORDERS  SECTION --
     
-    //---------------------------------------------------------|      
-        
+    //---------------------------------------------------------| 
+    
     // -- ADD ORDER  SECTION --
-    /*
+    
     private void createOrder() throws FlooringMasteryPersistenceException, 
                                    FlooringMasteryDuplicateIdException, 
                                    FloorMasteryValidateSubmitException,
@@ -249,74 +250,12 @@ public class FlooringMasteryController {
         view.displayCreateOrderBanner();
         
         boolean hasErrors = false;
+        LocalDate ld = null; 
+        
         do {
             
-            String state="";            
-            do{
-            state= view.getStateChoice().toLowerCase();
-            } while(!state.equalsIgnoreCase("oh")&&!state.equalsIgnoreCase("mi")&&
-                    !state.equalsIgnoreCase("pa")&&!state.equalsIgnoreCase("in"));
-            Taxes taxes = service.getState(state); System.out.println("");                  
-            
-        
-            System.out.println("Item  | Cost  | Labor Cost");
-            List<Products> productList;
-            productList = service.listAllProducts();
-            view.displayProductList(productList);System.out.println("");        
-        
-            String productType="";
-            do{
-            productType = view.getProductTypeChoice().toLowerCase();
-            }while(!productType.equalsIgnoreCase("wood")&&!productType.equalsIgnoreCase("tile")&&
-                    !productType.equalsIgnoreCase("carpet")&&!productType.equalsIgnoreCase("laminate"));
-            Products products = service.getProduct(productType); System.out.println("");           
-               
-           
-            
-                Orders newOrder = view.testGetNewOrderInfo(productList, taxes, products);
-                
-           
-            
-                try {
-                   
-                view.displayVerifyOrderSummary(newOrder);
-                service.createOrder(newOrder);
-                    
-                view.displayCreateOrderSuccessBanner();  
-                hasErrors = false;
-            } catch(DateTimeParseException e){           
-                view.displayDateErrorMessage(e.getMessage());
-                hasErrors = true; 
-            } catch (FlooringMasteryDataValidationException | 
-                     FlooringMasteryDuplicateIdException | 
-                     FlooringMasteryPersistenceException e) {                      
-                hasErrors = true;
-                view.displayErrorMessage(e.getMessage());
-            } catch (FloorMasteryValidateSubmitException e) {
-                hasErrors = true;
-                run();
-            }
-          //} // -- FOR LOOP --    
-        } while(hasErrors);         
-        
-    }    */    
-    // -- "END" ADD ORDER  SECTION --
-    
-    //---------------------------------------------------------| 
-    
-        // -- ADD ORDER  SECTION --
-    
-    private void createOrder2() throws FlooringMasteryPersistenceException, 
-                                   FlooringMasteryDuplicateIdException, 
-                                   FloorMasteryValidateSubmitException,
-                                   FlooringMasteryDataValidationException {       
-        
-        view.displayCreateOrderBanner();
-        
-        boolean hasErrors = false;
-        do {
-            String date = view.getOrderDateChoice();
-            Orders order = service.getTXTOrder(date);            
+            //String date = view.getOrderDateChoice();
+            //Orders order = service.getTXTOrder(date);            
         
             String state="";            
             do{
@@ -340,14 +279,14 @@ public class FlooringMasteryController {
                
            
             
-                Orders newOrder = view.testGetNewOrderInfo(productList, taxes, products);
+                Orders newOrder = view.getNewOrderInfo(productList, taxes, products);
                 
            
             
                 try {
                    
                 view.displayVerifyOrderSummary(newOrder);
-                service.createOrder(date, newOrder);
+                service.createOrder(ld, newOrder);
                     
                 view.displayCreateOrderSuccessBanner();  
                 hasErrors = false;
@@ -464,9 +403,9 @@ public class FlooringMasteryController {
     //---------------------------------------------------------| 
         
     // -- LIST ALL ORDERS  SECTION --    
-    private void listAllOrders() throws FlooringMasteryPersistenceException {
+    private void listAllOrders(LocalDate ld) throws FlooringMasteryPersistenceException {
         view.displayListAllOrdersBanner();
-        List<Orders> orderList = service.getAllOrders();
+        List<Orders> orderList = service.getAllOrders(ld);
         view.displayListAllOrders(orderList);       
     }           
     // -- "END" LIST ALL ORDERS  SECTION --
@@ -474,19 +413,19 @@ public class FlooringMasteryController {
     //---------------------------------------------------------|
     
     // -- LIST ALL ORDERS  SECTION --    
-    private void listAllOrderNumbers() throws FlooringMasteryPersistenceException, 
+    private void listAllOrderNumbers(LocalDate ld) throws FlooringMasteryPersistenceException, 
                                               FlooringMasteryDuplicateIdException, 
                                               FloorMasteryValidateSubmitException, 
                                               FlooringMasteryDataValidationException {
         view.displayListAllOrdersBanner();
-        List<Orders> orderList = service.getAllOrders();
+        List<Orders> orderList = service.getAllOrders(ld);
         view.displayListAllOrderNumbers(orderList);         
     }           
     // -- "END" LIST ALL ORDERS  SECTION --
     
     //---------------------------------------------------------|
     
-    // -- SEARCH BY ORDER NUMBERS  SECTION --    
+    /*/ -- SEARCH BY ORDER NUMBERS  SECTION --   NOT IN USE*** 
     private void searchByOrderNumber()throws FlooringMasteryPersistenceException, 
                                              FlooringMasteryDuplicateIdException, 
                                              FloorMasteryValidateSubmitException, 
@@ -501,7 +440,7 @@ public class FlooringMasteryController {
         System.out.println("=== END ORDER ===");
         run();
     }
-    // -- "END" SEARCH BY ORDER NUMBERS  SECTION --
+    */ // -- "END" SEARCH BY ORDER NUMBERS  SECTION --
     
     //---------------------------------------------------------|
     

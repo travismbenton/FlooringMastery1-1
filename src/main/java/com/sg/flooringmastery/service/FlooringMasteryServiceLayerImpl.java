@@ -38,14 +38,15 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     // -- "END" Constructor --
 
+    LocalDate ld;
     @Override
-    public void createOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
+    public void createOrder(LocalDate ld, Orders order) throws FlooringMasteryPersistenceException,
                                                  FloorMasteryValidateSubmitException,
                                                  FlooringMasteryDataValidationException,
                                                  FlooringMasteryDuplicateIdException {
         String orderNumber = order.getOrderNumber();
-        if(dao.getOrder(order.getOrderNumber()) == null) {            
-            order.setOrderNumber(dao.theTestKeys(orderNumber));
+        if(dao.getOrder(ld,order.getOrderNumber()) == null) {            
+            order.setOrderNumber(dao.theKeys(ld,orderNumber));
         }
                            
         validateRequiredFields(order);
@@ -53,9 +54,10 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         //VALIDATION IN CONTROLLER -- STATE & PRODUCT TYPE
         validateAreaSquareFeet(order);        
         validateSumitOrder(order);
-        dao.addOrder(date, order.getOrderNumber(), order);
+        dao.addOrder(ld, order.getOrderNumber(), order);
         auditDao.writeAuditEntry("New Order: "+order.getOrderNumber()+" CREATED.");        
     }
+    
 
     @Override
     public void editOrder(String date, Orders order) throws FlooringMasteryPersistenceException,
@@ -67,31 +69,19 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         dao.addEditOrder(date, order.getOrderNumber(), order);
         auditDao.writeAuditEntry("Existing Order: "+order.getOrderNumber()+" EDITED.");
     }
+    
 
     @Override
-    public List<Orders> getAllOrders() throws FlooringMasteryPersistenceException {
-        return dao.getAllOrders();
+    public List<Orders> getAllOrders(LocalDate ld) throws FlooringMasteryPersistenceException {
+        return dao.getAllOrders(ld);
     }
+    
     
     @Override
-    public Orders getTXTOrder(String orderDate) throws FlooringMasteryPersistenceException {
-        return dao.getTXTOrder(orderDate);
+    public Orders getOrder(LocalDate ld, String orderNumber) throws FlooringMasteryPersistenceException {
+        return dao.getOrder(ld,orderNumber);
     }
     
-    @Override // -- USED FOR REMOVE
-    public Orders getEditTXTOrder(String date, String orderNumber) throws FlooringMasteryPersistenceException {
-        return dao.getEditTXTOrder(date, orderNumber);
-    }
-    
-    @Override // -- USED FOR EDIT
-    public Orders getEditTXTOrder2(String date, String orderNumber) throws FlooringMasteryPersistenceException {
-        return dao.getEditTXTOrder(date, orderNumber);
-    }
-
-    @Override
-    public Orders getOrder(String orderNumber) throws FlooringMasteryPersistenceException {
-        return dao.getOrder(orderNumber);
-    }
 
     @Override
     public Orders removeOrder(String date, String orderNumber, Orders order) throws
@@ -105,6 +95,18 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
     
     
+    @Override // -- USED FOR CREATE ORDER
+    public Orders getTXTOrder(String orderDate) throws FlooringMasteryPersistenceException {
+        return dao.getTXTOrder(orderDate);
+    }
+    
+    
+    @Override // -- USED FOR REMOVE & REMOVE --
+    public Orders getEditTXTOrder(String date, String orderNumber) throws FlooringMasteryPersistenceException {
+        return dao.getEditTXTOrder(date, orderNumber);
+    } 
+    
+    
     private void validateRequiredFields(Orders order) throws 
             FlooringMasteryDataValidationException {        
         if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
@@ -115,6 +117,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }          
     }   
     
+    
     private void validateDate(Orders order) throws 
             FlooringMasteryDataValidationException { 
         LocalDate date1 = LocalDate.now();
@@ -124,10 +127,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             throw new FlooringMasteryDataValidationException (
                     "ERROR: [Order Date] has to be greater than today's date.");                                        
         }         
-    }
+    }  
     
-    
-
     
     /*private void validateState(Orders order) throws 
             FlooringMasteryDataValidationException {        
@@ -179,6 +180,7 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
         }         
     }
     
+    /*
     // -- NOT IN USE --
     public void systemGeneratedOrderNumber(Orders order) 
             throws FlooringMasteryPersistenceException{
@@ -189,13 +191,13 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
            order.setOrderNumber(orderNumber);
             System.out.println("Service Generated: "+orderNumber);
         }   
-    }    
+    }   
             
-                  
+    // -- NOT IN USE --               
    public List<Orders> getOrdersByOrderNumber(String orderNumber) 
            throws FlooringMasteryPersistenceException {
         return dao.getAssignedOrderNumbers(orderNumber);
-    } 
+    } */
    
     //---------------------------------------------------------|
     

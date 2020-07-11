@@ -9,6 +9,7 @@ import com.sg.flooringmastery.dao.FlooringMasteryPersistenceException;
 import com.sg.flooringmastery.dto.Orders;
 import com.sg.flooringmastery.dto.Products;
 import com.sg.flooringmastery.dto.Taxes;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public interface FlooringMasteryServiceLayer {
     
-    public void createOrder(String date, Orders order) throws 
+    public void createOrder(LocalDate ld, Orders order) throws 
             FlooringMasteryPersistenceException, 
             FlooringMasteryDataValidationException,
             FloorMasteryValidateSubmitException,
@@ -29,7 +30,7 @@ public interface FlooringMasteryServiceLayer {
             FlooringMasteryDuplicateIdException,
             FloorMasteryValidateSubmitException;                       
  
-    public List<Orders> getAllOrders() throws
+    public List<Orders> getAllOrders(LocalDate ld) throws
             FlooringMasteryPersistenceException;
     
     public Orders getTXTOrder(String orderDate) throws
@@ -37,11 +38,8 @@ public interface FlooringMasteryServiceLayer {
     
     public Orders getEditTXTOrder(String date, String orderNumber) throws
             FlooringMasteryPersistenceException;
-    
-    public Orders getEditTXTOrder2(String date, String orderNumber) throws
-            FlooringMasteryPersistenceException;
  
-    public Orders getOrder(String orderNumber) throws
+    public Orders getOrder(LocalDate ld, String orderNumber) throws
             FlooringMasteryPersistenceException;
  
     public Orders removeOrder(String date, String OrderNumber, Orders order) throws
@@ -49,8 +47,8 @@ public interface FlooringMasteryServiceLayer {
             FlooringMasteryDataValidationException,
             FloorMasteryValidateSubmitException;
     
-    public List<Orders> getOrdersByOrderNumber(String orderNumber) 
-           throws FlooringMasteryPersistenceException;
+//        public List<Orders> getOrdersByOrderNumber(String orderNumber) 
+//           throws FlooringMasteryPersistenceException;
     
     
     
