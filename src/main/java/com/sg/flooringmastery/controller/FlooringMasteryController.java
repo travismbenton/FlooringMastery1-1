@@ -253,10 +253,10 @@ public class FlooringMasteryController {
         
             String state="";            
             do{
-            state= view.getStateChoice().toLowerCase();
-            } while(!state.equalsIgnoreCase("oh")&&!state.equalsIgnoreCase("mi")&&
-                    !state.equalsIgnoreCase("pa")&&!state.equalsIgnoreCase("in"));
-            Taxes taxes = service.getState(state); System.out.println("");                  
+            state = view.getStateChoice().toLowerCase();           
+            
+            } while(service.getState(state)==null);
+            Taxes taxes = service.getState(state); System.out.println(""); 
             
         
             System.out.println("Item  | Cost  | Labor Cost");
@@ -267,14 +267,11 @@ public class FlooringMasteryController {
             String productType="";
             do{
             productType = view.getProductTypeChoice().toLowerCase();
-            }while(!productType.equalsIgnoreCase("wood")&&!productType.equalsIgnoreCase("tile")&&
-                    !productType.equalsIgnoreCase("carpet")&&!productType.equalsIgnoreCase("laminate"));
-            Products products = service.getProduct(productType); System.out.println("");           
-               
+            }while(service.getProduct(productType)==null);
+            Products products = service.getProduct(productType); System.out.println("");               
            
             
-                Orders newOrder = view.getNewOrderInfo(productList, taxes, products);
-                
+                Orders newOrder = view.getNewOrderInfo(productList, taxes, products);                
            
             
                 try {
@@ -312,6 +309,7 @@ public class FlooringMasteryController {
 
 
         view.displayEditOrderBanner();
+        Taxes taxes = null;  Products products=null;
         
         boolean hasErrors = false;
         do {
@@ -324,13 +322,23 @@ public class FlooringMasteryController {
                     System.out.println(""); }                
                 
                 System.out.println("");
-                System.out.println("State: "+order.getState()+" \"Select\" new state or press enter."); 
+                System.out.println("State: "+order.getState()+" \"Select\" new state or press enter.");                
                 String state = view.getStateChoice().toLowerCase();
                 if(state.trim().length() == 0){                    
-                 state = order.getState(); }
-                Taxes taxes = service.getState(state); System.out.println(""); 
-                System.out.println("");                 
-        
+                 state = order.getState(); 
+                taxes = service.getState(state); System.out.println(""); 
+                System.out.println("");
+                } else {                            
+            do {
+                //System.out.println("Serving States: IN, MI, OH, PA");
+                state = view.getStateChoice().toLowerCase();  
+                
+            } while(service.getState(state)==null);            
+                taxes = service.getState(state); System.out.println("");
+                System.out.println("");
+                }           
+                   
+                    
                 System.out.println("Item  | Cost  | Labor Cost");
                 List<Products> productList;
                 productList = service.listAllProducts();
@@ -339,8 +347,19 @@ public class FlooringMasteryController {
                 System.out.println("Product: "+order.getProductType()+" \"Select\" new product or press enter.");
                 String productType = view.getProductTypeChoice().toLowerCase();
                 if(productType.trim().length() == 0){
-                 productType = order.getProductType(); }
-                Products products = service.getProduct(productType); System.out.println("");                                  
+                 productType = order.getProductType(); 
+                products = service.getProduct(productType); System.out.println("");    
+                } else {                            
+            do {
+                //System.out.println("Serving Products: Carpet, Laminate, Tile, Wood");
+                productType = view.getProductTypeChoice().toLowerCase(); 
+                
+            } while(service.getProduct(productType)==null);            
+                products = service.getProduct(productType); System.out.println("");
+                System.out.println("");
+                }          
+                
+                
         
                 
                 Orders newEditedOrder = view.editExistingOrderInfo22(order ,productList, taxes, products);            

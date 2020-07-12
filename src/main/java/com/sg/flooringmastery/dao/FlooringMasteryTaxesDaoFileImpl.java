@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -30,26 +31,26 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
     public static final String DELIMITER = "::"; 
 
     @Override
-    public Taxes addState(String stateAbbreviation, Taxes state) 
+    public Taxes addState(String state, Taxes taxes) 
             throws FlooringMasteryPersistenceException {
-        Taxes newState = myTaxes.put(stateAbbreviation, state);
+        Taxes newState = myTaxes.put(state, taxes);
         writeTaxes();
         return newState;
     }
 
     @Override
-    public Taxes removeState(String stateAbbreviation) 
+    public Taxes removeState(String state) 
             throws FlooringMasteryPersistenceException {
-        Taxes removeState = myTaxes.remove(stateAbbreviation);
+        Taxes removeState = myTaxes.remove(state);
         writeTaxes();
         return removeState;
     }
 
     @Override
-    public Taxes getState(String stateAbbreviation) 
+    public Taxes getState(String state) 
             throws FlooringMasteryPersistenceException {
         loadTaxes();
-        return myTaxes.get(stateAbbreviation);
+        return myTaxes.get(state);
     }
 
     @Override
@@ -58,10 +59,6 @@ public class FlooringMasteryTaxesDaoFileImpl implements FlooringMasteryTaxesDao 
         loadTaxes();
         return new ArrayList<>(myTaxes.values());
     }
-    
-    
-    
-    
     
     
     

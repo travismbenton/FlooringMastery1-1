@@ -194,14 +194,14 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     public Taxes getState(String stateAbbreviation) 
             throws FlooringMasteryPersistenceException {
         return taxesDao.getState(stateAbbreviation);
-    }
-
+    }    
+    
     @Override
     public List<Taxes> listAllStates() 
             throws FlooringMasteryPersistenceException {
         return taxesDao.listAllStates();
-    }        
-    
+    }      
+            
     //---------------------------------------------------------|
     
     //---------------------------------------------------------|
@@ -229,6 +229,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
             throws FlooringMasteryPersistenceException {
         return productsDao.listAllProducts();
     }
+
+    
 
     
     

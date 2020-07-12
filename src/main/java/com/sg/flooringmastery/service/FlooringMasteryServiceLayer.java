@@ -68,7 +68,7 @@ public interface FlooringMasteryServiceLayer {
             
         
     List<Taxes> listAllStates()
-            throws FlooringMasteryPersistenceException;   
+            throws FlooringMasteryPersistenceException; 
     
         
      //---------------------------------------------------------|

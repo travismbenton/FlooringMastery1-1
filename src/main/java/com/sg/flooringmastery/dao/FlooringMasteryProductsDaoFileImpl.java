@@ -52,19 +52,7 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
             throws FlooringMasteryPersistenceException {
         loadProducts();
         return myProducts.get(productType);
-    }
-    
-/*    @Override
-    public Products getProductFile(String products) 
-            throws FlooringMasteryPersistenceException {
-        try { 
-        loadProductsFile(products);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return myProducts.get(products);
-    }  */
-    
+    }    
 
     @Override
     public List<Products> listAllProducts() 
@@ -74,47 +62,7 @@ public class FlooringMasteryProductsDaoFileImpl implements FlooringMasteryProduc
     }
     
     
-    /*
-    public String loadProductsFile(String products) throws FileNotFoundException, 
-            IOException, FlooringMasteryPersistenceException {
-      Scanner scanner;
-      
-      try { 
-    
-    File ORDERS_FILE = new File("products.txt");    
-              
-      scanner = new Scanner(
-                  new BufferedReader(
-                  new FileReader(PRODUCTS_FILE)));
-      } catch (FileNotFoundException e){
-            throw new FlooringMasteryPersistenceException(
-                    "-_- Could not load product data into memory", e);
-        }
-        
-        String currentLine;        
-        String[] currentTokens;
-
-        
-        while(scanner.hasNextLine()){
-            currentLine = scanner.nextLine();
-            currentTokens = currentLine.split(DELIMITER);           
-            
-            Products currentProducts = new Products(currentTokens[0]);            
-	    currentProducts.setCostPerSquareFoot(currentTokens[1]);
-	    currentProducts.setLaborCostPerSquareFoot(currentTokens[2]);            
-            
-            myProducts.put(currentProducts.getProductType(), currentProducts);            
-        
-        }            
-        
-      scanner.close();       
-    
-      return products;
-    } */
-
-    
-    
-    
+   
     
     // -- LOAD PRODUCTS --
     private void loadProducts() throws FlooringMasteryPersistenceException {

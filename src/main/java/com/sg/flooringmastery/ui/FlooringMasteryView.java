@@ -179,20 +179,17 @@ public class FlooringMasteryView {
         currentOrder.setTaxRate(convertTaxRate);  //Taxes
         
         currentOrder.setProductType(products.getProductType());  //Products
-        currentOrder.setArea(area);
-        
-        
+        currentOrder.setArea(area);        
         
         String convertCPSF = products.getCostPerSquareFoot().toString();
         currentOrder.setCostPerSquareFoot(convertCPSF);  //Products
         String convertLCPSF = products.getLaborCostPerSquareFoot().toString();
         currentOrder.setLaborCostPerSquareFoot(convertLCPSF);  //Products
         
-        System.out.println("Area: "+area);
-        System.out.println("Tax Rate: "+taxes.getTaxRate());
-        System.out.println("Product Cost: "+products.getCostPerSquareFoot());
-        System.out.println("Labor Cost: "+products.getLaborCostPerSquareFoot());
-        
+        //System.out.println("Area: "+area);
+        //System.out.println("Tax Rate: "+taxes.getTaxRate());
+        //System.out.println("Product Cost: "+products.getCostPerSquareFoot());
+        //System.out.println("Labor Cost: "+products.getLaborCostPerSquareFoot());        
         
         BigDecimal decimalArea = new BigDecimal(area);
         String materialCost = "0";       
