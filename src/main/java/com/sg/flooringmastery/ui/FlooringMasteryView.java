@@ -39,11 +39,9 @@ public class FlooringMasteryView {
         io.print("2. Add an Order ");
         io.print("3. Edit an Order ");
         io.print("4. Remove an Order ");                
-        io.print("5. States *Menu ");
-        io.print("6. Products *Menu ");
-        io.print("7. Quit");
+        io.print("5. Quit ");
             
-        return io.readInt("Please select from the menu above. ", 1, 7);
+        return io.readInt("Please select from the menu above. ", 1, 5);
     }   
     
     //---------------------------------------------------------|

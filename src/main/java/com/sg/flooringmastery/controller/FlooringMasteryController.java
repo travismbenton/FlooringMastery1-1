@@ -62,15 +62,9 @@ public class FlooringMasteryController {
                     removeOrder();
                     break;                 
                 case 5:
-                    taxes();
-                    break;                
-                case 6:
-                    products();
-                    break;    
-                case 7:
                     keepGoing = false;
                     break;
-                case 8:
+                case 6:
                     unknownCommand();
                     break;
      
